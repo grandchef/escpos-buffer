@@ -21,7 +21,7 @@ npm install escpos-buffer
 
 ## Basic example
 ```js
-const { Printer, Style, Align, Drawer, Model, InMemory } = require('../')
+const { Printer, Style, Align, Drawer, Model, InMemory } = require('escpos-buffer')
 
 const model = new Model('MP-4200 TH')
 const connection = new InMemory()
@@ -37,7 +37,7 @@ printer.cutter()
 printer.drawer(Drawer.First)
 process.stdout.write(connection.buffer())
 
-// to print run command bellow on terminal
+// to print, run command bellow on terminal
 //> node examples/basic.js | lp -d MyCupsPrinterName
 ```
 
