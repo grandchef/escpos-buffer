@@ -1,20 +1,19 @@
-import { Connection } from '.'
+import { Connection } from '.';
 
 export default class InMemory implements Connection {
-  list: Buffer[]
+  list: Buffer[];
 
   open(): void {
-    this.list = []
+    this.list = [];
   }
 
   write(data: Buffer): void {
-    this.list.push(data)
+    this.list.push(data);
   }
 
-  close(): void {
-  }
+  close(): void {}
 
   buffer() {
-    return Buffer.concat(this.list)
+    return Buffer.concat(this.list);
   }
 }
