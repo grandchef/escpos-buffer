@@ -24,3 +24,5 @@ coverage
 
 # Misc
 .DS_Store
+
+dist/
