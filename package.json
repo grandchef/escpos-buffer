@@ -21,6 +21,8 @@
     "build": "tsc -d -p tsconfig.release.json",
     "build:watch": "tsc -w -p tsconfig.release.json",
     "lint": "tslint -t stylish --project \"tsconfig.json\"",
+    "style:fix": "prettier --write \"src/**/*.ts\"",
+    "style:check": "prettier --check \"src/**/*.ts\"",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk=9229 node_modules/.bin/jest -i"

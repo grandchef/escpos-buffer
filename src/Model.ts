@@ -1,5 +1,5 @@
 import { Profile } from './profile';
-import capabilities, { Capability } from './capabilities'
+import capabilities, { Capability } from './capabilities';
 import Bematech from './profile/Bematech';
 import Epson from './profile/Epson';
 import ControliD from './profile/ControliD';
@@ -11,53 +11,53 @@ import Generic from './profile/Generic';
 import Perto from './profile/Perto';
 import Sweda from './profile/Sweda';
 
-const cache = new Map<string, Capability>()
+const cache = new Map<string, Capability>();
 
 export default class Model {
-  private _profile: Profile
+  private _profile: Profile;
 
-  constructor(model: string|Profile) {
+  constructor(model: string | Profile) {
     if (typeof model === 'string') {
-      this._profile = this.instance(Model.EXPAND(model))
+      this._profile = this.instance(Model.EXPAND(model));
     } else {
-      this._profile = model
+      this._profile = model;
     }
   }
 
   instance(capability: Capability): Profile {
     switch (capability.profile) {
       case 'bematech':
-        return new Bematech(capability)
+        return new Bematech(capability);
       case 'controlid':
-        return new ControliD(capability)
+        return new ControliD(capability);
       case 'daruma':
-        return new Daruma(capability)
+        return new Daruma(capability);
       case 'dataregis':
-        return new Dataregis(capability)
+        return new Dataregis(capability);
       case 'diebold':
-        return new Diebold(capability)
+        return new Diebold(capability);
       case 'elgin':
-        return new Elgin(capability)
+        return new Elgin(capability);
       case 'generic':
-        return new Generic(capability)
+        return new Generic(capability);
       case 'perto':
-        return new Perto(capability)
+        return new Perto(capability);
       case 'sweda':
-        return new Sweda(capability)
+        return new Sweda(capability);
       default:
-        return new Epson(capability)
+        return new Epson(capability);
     }
   }
 
-  static ASSIGN_DEFINED (target: object, ...others: object[]): object {
+  static ASSIGN_DEFINED(target: object, ...others: object[]): object {
     others.forEach((other: object) => {
       Object.keys(other).forEach((key: string) => {
         if (other[key] !== undefined) {
-          target[key] = other[key]
+          target[key] = other[key];
         }
-      })
-    })
-    return target
+      });
+    });
+    return target;
   }
 
   static EXPAND(model: string): Capability {
@@ -68,41 +68,51 @@ export default class Model {
       columns: undefined,
       fonts: undefined,
       codepage: undefined,
-      codepages: undefined
-    }
+      codepages: undefined,
+    };
     if (!(model in capabilities.models)) {
-      throw new Error(`Printer model "${model}" not supported`)
+      throw new Error(`Printer model "${model}" not supported`);
     }
     if (cache.has(model)) {
-      return cache.get(model)
+      return cache.get(model);
     }
-    let profile = capabilities.models[model]
+    let profile = capabilities.models[model];
     if (typeof profile === 'string') {
-      capability['profile'] = profile
-      profile = capabilities.profiles[profile]
+      capability['profile'] = profile;
+      profile = capabilities.profiles[profile];
     }
-    Model.ASSIGN_DEFINED(capability, Model.ASSIGN_DEFINED({}, profile, capability))
+    Model.ASSIGN_DEFINED(
+      capability,
+      Model.ASSIGN_DEFINED({}, profile, capability),
+    );
     while ('profile' in profile) {
-      profile = capabilities.profiles[profile['profile']]
-      Model.ASSIGN_DEFINED(capability, Model.ASSIGN_DEFINED({}, profile, capability))
+      profile = capabilities.profiles[profile['profile']];
+      Model.ASSIGN_DEFINED(
+        capability,
+        Model.ASSIGN_DEFINED({}, profile, capability),
+      );
     }
-    capability.codepages = Object.keys(capability.codepages).map((code: string) => ({
-      code,
-      command: capability.codepages[code],
-    }))
-    cache.set(model, capability)
-    return capability
+    capability.codepages = Object.keys(capability.codepages).map(
+      (code: string) => ({
+        code,
+        command: capability.codepages[code],
+      }),
+    );
+    cache.set(model, capability);
+    return capability;
   }
 
   static ALL(): Capability[] {
-    return Object.keys(capabilities.models).map((key: string) => Model.EXPAND(key))
+    return Object.keys(capabilities.models).map((key: string) =>
+      Model.EXPAND(key),
+    );
   }
 
   get name(): string {
-    return this._profile.name
+    return this._profile.name;
   }
 
   get profile(): Profile {
-    return this._profile
+    return this._profile;
   }
 }
