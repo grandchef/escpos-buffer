@@ -47,6 +47,8 @@ process.stdout.write(connection.buffer())
 + `build` - transpile TypeScript to ES6,
 + `build:watch` - interactive watch mode to automatically transpile source files,
 + `lint` - lint source files and tests,
++ `style:fix` - fix prettier style problems,
++ `style:check` - check for prettier style,
 + `test` - run tests,
 + `test:watch` - interactive watch mode to automatically re-run tests
 + `test:debug` - run tests debugging
