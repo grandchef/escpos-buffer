@@ -41,6 +41,23 @@ process.stdout.write(connection.buffer())
 //> node examples/basic.js | lp -d MyCupsPrinterName
 ```
 
+## Usage in the browser
+You can also use the new WebUSB protocol [in Chrome](https://caniuse.com/webusb) to connect directly to the printer.
+```js
+import { Printer, Model, WebUSB } from 'escpos-buffer'
+
+const device = await navigator.usb.requestDevice({
+  filters: [{
+    vendorId: VENDOR_ID
+  }]
+})
+const model = new Model('TM-T20')
+const connection = new WebUSB(device)
+await connection.open()
+const printer = new Printer(model, connection)
+// ...
+```
+
 ## Available scripts
 
 + `clean` - remove coverage data, Jest cache and transpiled files,
