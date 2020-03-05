@@ -8,21 +8,23 @@ export default class Image {
   width: number;
   bytesPerRow: number;
 
-  constructor(input: string | Buffer, filter: Filter = null) {
-    const _filter = filter || new FloydSteinberg();
-    if (typeof input === 'string') {
-      this.loadImage(input, _filter);
+  constructor(
+    input: string | Buffer | PNG,
+    filter: Filter = new FloydSteinberg(),
+  ) {
+    if (input instanceof PNG) {
+      this.readImage(filter.process(input));
+    } else if (typeof input === 'string') {
+      this.loadImage(input, filter);
     } else {
-      this.loadImageData(input, _filter);
+      this.loadImageData(input, filter);
     }
   }
 
   loadImage(filename: string, filter: Filter): void {
     // tslint:disable-next-line: non-literal-fs-path
     const data = fs.readFileSync(filename);
-    const png = PNG.sync.read(data);
-    const image = filter.process(png);
-    this.readImage(image);
+    this.loadImageData(data, filter);
   }
 
   loadImageData(data: Buffer, filter: Filter): void {
