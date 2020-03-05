@@ -8,6 +8,13 @@ describe('proccess images to printing format', () => {
     expect(image.width).toBe(180);
   });
 
+  it('allow image cache', () => {
+    const cache = new Image(load('sample.png'));
+    const image = new Image();
+    Object.assign(image, cache);
+    expect(image.width).toBe(180);
+  });
+
   it('accepts a pre-loaded PNG instance', async () => {
     const imageBuffer = load('sample.png');
 

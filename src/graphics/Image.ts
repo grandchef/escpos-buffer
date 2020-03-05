@@ -9,14 +9,14 @@ export default class Image {
   bytesPerRow: number;
 
   constructor(
-    input: string | Buffer | PNG,
+    input: string | Buffer | PNG = null,
     filter: Filter = new FloydSteinberg(),
   ) {
     if (input instanceof PNG) {
       this.readImage(filter.process(input));
     } else if (typeof input === 'string') {
       this.loadImage(input, filter);
-    } else {
+    } else if (input) {
       this.loadImageData(input, filter);
     }
   }

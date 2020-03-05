@@ -20,7 +20,7 @@ describe('WebUSB', () => {
   });
 
   it('writes data', async () => {
-    const buffer = new Buffer('hello');
+    const buffer = Buffer.from('hello');
     const webUsb = new WebUSB(device);
     await webUsb.write(buffer);
     expect(device.transferOut).toHaveBeenCalledWith(1, buffer);
