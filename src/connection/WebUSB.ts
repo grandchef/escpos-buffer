@@ -1,16 +1,29 @@
 import { Connection } from '.';
 
 export default class WebUSB implements Connection {
+  private endpointNumber: number = 1;
+
   constructor(private device: USBDevice) {}
 
-  async open(): Promise<void> {
+  async open({
+    configuration = 1,
+    interface: interfaceNumber = 0,
+  }: {
+    configuration?: number;
+    interface?: number;
+  } = {}): Promise<void> {
     await this.device.open();
-    await this.device.selectConfiguration(1);
-    await this.device.claimInterface(0);
+    await this.device.selectConfiguration(configuration);
+    await this.device.claimInterface(interfaceNumber);
+    const iface = this.device.configuration.interfaces[interfaceNumber];
+    const endpoint = iface.alternate.endpoints.find(
+      (e: USBEndpoint) => e.direction === 'out',
+    );
+    this.endpointNumber = endpoint.endpointNumber;
   }
 
   write(data: Buffer): Promise<USBOutTransferResult> {
-    return this.device.transferOut(1, data);
+    return this.device.transferOut(this.endpointNumber, data);
   }
 
   close(): Promise<void> {
