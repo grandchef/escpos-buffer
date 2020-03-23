@@ -1,6 +1,7 @@
 import Model from './Model';
 import { Connection } from './connection';
 import Image from './graphics/Image';
+import { StyleConf } from './profile';
 
 export enum Align {
   Left,
@@ -80,6 +81,10 @@ export default class Printer {
 
   writeln(text: string = '', styles: number = 0, align: Align = Align.Left) {
     this.model.profile.writeln(text, styles, align);
+  }
+
+  withStyle(styleConf: StyleConf, cb: Function) {
+    this.model.profile.withStyle(styleConf, cb);
   }
 
   feed(lines: number = 1) {

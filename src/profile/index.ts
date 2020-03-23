@@ -6,6 +6,15 @@ import * as QRCode from 'qrcode';
 import Image from '../graphics/Image';
 import { Threshold } from '../graphics/filter';
 
+export type StyleConf = {
+  width?: number;
+  height?: number;
+  bold?: boolean;
+  underline?: boolean;
+  italic?: boolean;
+  align?: Align;
+};
+
 export abstract class Profile {
   private _columns: number;
   private _codepage: CodePage;
@@ -40,18 +49,57 @@ export abstract class Profile {
 
   protected abstract setStyle(style: Style, enable: boolean): void;
 
+  protected abstract setCharSize(charSize: {
+    width: number;
+    height: number;
+  }): void;
+
+  protected setStyles(styles: number, enable: boolean) {
+    let properties = [
+      Style.Condensed,
+      Style.Bold,
+      Style.Italic,
+      Style.Underline,
+    ];
+    properties = enable ? properties : properties.reverse();
+    properties.forEach((style: Style) => {
+      this.setStyle(style & styles, enable);
+    });
+  }
+
   write(text: string, styles: number) {
     this.setMode(styles, true);
-    this.setStyle(Style.Condensed & styles, true);
-    this.setStyle(Style.Bold & styles, true);
-    this.setStyle(Style.Italic & styles, true);
-    this.setStyle(Style.Underline & styles, true);
+    this.setStyles(styles, true);
     this.connection.write(iconv.encode(text, this._codepage.code));
-    this.setStyle(Style.Underline & styles, false);
-    this.setStyle(Style.Italic & styles, false);
-    this.setStyle(Style.Bold & styles, false);
-    this.setStyle(Style.Condensed & styles, false);
+    this.setStyles(styles, false);
     this.setMode(styles, false);
+  }
+
+  withStyle(styleConf: StyleConf, cb: Function) {
+    const {
+      width = undefined,
+      height = undefined,
+      bold = false,
+      italic = false,
+      underline = false,
+      align = Align.Left,
+    } = styleConf;
+    let styles = 0;
+    if (bold) styles |= Style.Bold;
+    if (italic) styles |= Style.Italic;
+    if (underline) styles |= Style.Underline;
+
+    if (align !== Align.Left) {
+      this.alignment = align;
+    }
+    this.setCharSize({ width, height });
+    this.setStyles(styles, true);
+    cb();
+    this.setStyles(styles, false);
+    this.setCharSize({ width: 1, height: 1 });
+    if (align !== Align.Left) {
+      this.alignment = Align.Left;
+    }
   }
 
   writeln(text: string, styles: number, align: Align) {

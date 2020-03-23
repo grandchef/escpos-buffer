@@ -1,11 +1,12 @@
-import Model from '../src/Model';
-import InMemory from '../src/connection/InMemory';
-import Printer, { Style, Align } from '../src/Printer';
-import { load } from './helper';
-import { Image } from '../src';
 import * as path from 'path';
+import { Image } from '../src';
 import { Capability } from '../src/capabilities';
+import InMemory from '../src/connection/InMemory';
+import Model from '../src/Model';
+import Printer, { Align, Style } from '../src/Printer';
+import { StyleConf } from '../src/profile';
 import Elgin from '../src/profile/Elgin';
+import { load } from './helper';
 
 describe('print formatted text', () => {
   it('write text', () => {
@@ -230,5 +231,24 @@ describe('print formatted text', () => {
       const model = new Model('MP-4200 TH');
       model.profile.feed(1);
     }).toThrow();
+  });
+
+  it('should forward withStyle to the profile', () => {
+    const connection = new InMemory();
+    const model = new Model('MP-4200 TH');
+    const withStyleSpy = jest
+      .spyOn(model.profile, 'withStyle')
+      .mockImplementation((_: StyleConf, cb: Function) => cb());
+    const printer = new Printer(model, connection);
+
+    const styleConf = {
+      width: 4,
+      height: 8,
+    };
+    const cb = jest.fn();
+    printer.withStyle(styleConf, cb);
+
+    expect(withStyleSpy).toHaveBeenCalledWith(styleConf, cb);
+    expect(cb).toHaveBeenCalledTimes(1);
   });
 });

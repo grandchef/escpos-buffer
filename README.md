@@ -31,6 +31,18 @@ printer.write('Simple Text *** ')
 printer.writeln('Bold Text -> complete line text.[]123456', Style.Bold)
 printer.writeln('Double height', Style.DoubleHeight | Style.Bold, Align.Center)
 printer.writeln('Áçênts R$ 5,00', Style.DoubleWidth | Style.DoubleWidth, Align.Center)
+printer.withStyle({
+  width: 4,
+  height: 6,
+  bold: true,
+  italic: true,
+  underline: true,
+  align: Align.Center,
+  }, () => {
+    printer.writeln('You can apply multiple styles at once using withStyle()')
+    printer.writeln('Font sizes 1-8 are available')
+})
+printer.writeln('Default style is restored afterwards')
 printer.feed(6)
 printer.buzzer()
 printer.cutter()
