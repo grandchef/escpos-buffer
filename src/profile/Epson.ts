@@ -102,6 +102,22 @@ export default class Epson extends Profile {
     }
   }
 
+  protected setCharSize({
+    width = 1,
+    height = 1,
+  }: {
+    width: number;
+    height: number;
+  }) {
+    width = Math.max(1, Math.min(width, 8));
+    height = Math.max(1, Math.min(height, 8));
+    const n = (height - 1) | ((width - 1) << 4);
+
+    this.connection.write(
+      Buffer.from(`\x1D!${String.fromCharCode(n)}`, 'ascii'),
+    );
+  }
+
   async qrcode(data: string, size: number) {
     const tipo = '2';
     const _size = String.fromCharCode(size || 4);
