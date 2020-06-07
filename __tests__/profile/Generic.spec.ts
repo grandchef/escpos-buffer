@@ -18,6 +18,13 @@ describe('generic model profile', () => {
     expect(connection.buffer()).toStrictEqual(load('cmp-20_large_text', connection.buffer()))
   })
 
+  it('write text with double width and height from Generic 80mm', () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('POS-80'), connection)
+    printer.writeln('Large Text', Style.DoubleWidth + Style.DoubleHeight, Align.Center)
+    expect(connection.buffer()).toStrictEqual(load('generic-80mm_large_text', connection.buffer()))
+  })
+
   it('draw qrcode from model CMP-20', async () => {
     const connection = new InMemory()
     const printer = new Printer(new Model('CMP-20'), connection)

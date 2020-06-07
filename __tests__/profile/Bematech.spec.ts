@@ -45,6 +45,13 @@ describe('bematech model profile', () => {
     expect(connection.buffer()).toStrictEqual(load('mp-4200_th_buzzer', connection.buffer()))
   })
 
+  it('emit buzzer from model MP-2800 TH', () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('MP-2800 TH'), connection)
+    printer.buzzer()
+    expect(connection.buffer()).toStrictEqual(load('mp-2800_th_buzzer', connection.buffer()))
+  })
+
   it('emit buzzer on another font from model MP-4200 TH', () => {
     const connection = new InMemory()
     const printer = new Printer(new Model('MP-4200 TH'), connection)

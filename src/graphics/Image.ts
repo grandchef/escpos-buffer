@@ -59,18 +59,24 @@ export default class Image {
             if (img_y >= img_height) {
               break;
             }
-            const color = image.data.readUIntBE(
-              img_y * width * 4 + img_x * 4,
-              4,
-            );
-            const alpha = (color >> 24) & 0xff;
-            const red = (color >> 16) & 0xff;
-            const green = (color >> 8) & 0xff;
-            const blue = color & 0xff;
+            const src_red = image.data[img_y * width * 4 + img_x * 4 + 0];
+            const src_green = image.data[img_y * width * 4 + img_x * 4 + 1];
+            const src_blue = image.data[img_y * width * 4 + img_x * 4 + 2];
+            const src_alpha = image.data[img_y * width * 4 + img_x * 4 + 3];
+            // apply white background
+            const bkg_red = 0xff;
+            const bkg_green = 0xff;
+            const bkg_blue = 0xff;
+            // final color
+            const alpha = src_alpha / 0xff;
+            const red = alpha * src_red + (1 - alpha) * bkg_red;
+            const green = alpha * src_green + (1 - alpha) * bkg_green;
+            const blue = alpha * src_blue + (1 - alpha) * bkg_blue;
+
             const greyness =
               Math.trunc(red * 0.3 + green * 0.59 + blue * 0.11) >> 7;
             // 1 for black, 0 for white, taking into account transparency
-            const dot = (1 - greyness) >> (alpha >> 6);
+            const dot = 1 - greyness;
             // apply the dot
             slice |= dot << (7 - bit);
           }

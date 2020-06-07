@@ -24,7 +24,9 @@ export default class Bematech extends Epson {
   }
 
   buzzer(): void {
-    if (this.font.name != 'Font C') {
+    if (this.capabilities.model == 'MP-2800 TH') {
+      this.connection.write(Buffer.from('\x1BB\x02\x01', 'ascii'));
+    } else if (this.font.name != 'Font C') {
       this.connection.write(
         Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'),
       );

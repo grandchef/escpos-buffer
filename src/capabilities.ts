@@ -14,6 +14,7 @@ export type Capability = {
   model: string;
   name?: string;
   columns: number;
+  feed?: number;
   fonts: Font[];
   codepage: string;
   initialize?: string;
@@ -22,42 +23,69 @@ export type Capability = {
 
 export default {
   models: {
-    'MP-5100 TH': 'bematech',
     'MP-4200 TH': 'bematech',
-    'MP-20 MI': 'bematech',
+    'MP-2800 TH': {
+      profile: 'bematech',
+      feed: 3,
+    },
+    'MP-2500 TH': {
+      profile: 'bematech',
+      feed: 6,
+    },
+    'MP-2100 TH': {
+      profile: 'bematech',
+      feed: 6,
+    },
+    'MP-4000 TH': 'bematech',
+    'MP-5100 TH': 'bematech',
     'MP-100S TH': 'bematech',
+    'MP-20 MI': 'bematech',
+
     'TM-T20': 'tmt20',
     'TM-T81': 'epson',
     'TM-T88': 'epson',
-    NIX: 'elgin',
-    'VOX+': 'elgin',
-    VOX: 'elgin',
+
     I9: 'elgin',
     I7: 'elgin',
-    DS300: 'daruma',
-    DS348: 'daruma',
-    DR600: 'daruma',
+    VOX: 'elgin',
+    'VOX+': 'elgin',
+    NIX: 'elgin',
+
+    DR800: {
+      profile: 'daruma',
+      feed: 2,
+    },
     DR700: 'daruma',
-    DR800: 'daruma',
-    IM113: 'diebold',
-    IM402: 'diebold',
-    IM433: 'diebold',
-    IM453: 'diebold',
+    DR600: 'daruma',
+    DS348: 'daruma',
+    DS300: 'daruma',
+
     'TSP-143': 'diebold',
-    'SI-250': 'sweda',
-    'SI-300L': 'sweda',
-    'SI-300S': 'sweda',
-    'SI-300W': 'sweda',
-    'E-3202': 'dataregis',
-    DT200: 'dataregis',
+    IM453: 'diebold',
+    IM433: 'diebold',
+    IM402: 'diebold',
+    IM113: 'diebold',
     IM833: {
       profile: 'diebold',
       name: 'Mecaf Perfecta',
     },
+
+    'SI-300L': 'sweda',
+    'SI-300S': 'sweda',
+    'SI-300W': 'sweda',
+    'SI-250': 'sweda',
+
+    'E-3202': 'dataregis',
+    DT200: 'dataregis',
+
     PrintiD: 'controlid',
+
     PertoPrinter: 'perto',
+
+    'POS-80': 'generic',
+    'POS-58': 'generic58',
     'CMP-20': {
-      profile: 'generic',
+      profile: 'generic58',
       brand: 'Citizen',
     },
   },
@@ -65,6 +93,7 @@ export default {
     epson: {
       brand: 'Epson',
       columns: 42,
+      feed: 3,
       codepage: 'cp850',
       fonts: [
         {
@@ -114,6 +143,7 @@ export default {
     bematech: {
       brand: 'Bematech',
       columns: 50,
+      feed: 0,
       codepage: 'cp850',
       fonts: [
         {
@@ -147,6 +177,7 @@ export default {
     elgin: {
       profile: 'epson',
       brand: 'Elgin',
+      feed: 2,
       codepages: {
         cp1252: '\x1Bt\x01',
         cp850: '\x1Bt\x02',
@@ -157,6 +188,7 @@ export default {
     },
     sweda: {
       profile: 'elgin',
+      feed: 8,
       brand: 'Sweda',
     },
     dataregis: {
@@ -167,6 +199,7 @@ export default {
       brand: 'Daruma',
       profile: 'epson',
       columns: 48,
+      feed: 8,
       codepage: 'cp850',
       fonts: [
         {
@@ -197,6 +230,18 @@ export default {
     controlid: {
       profile: 'epson',
       brand: 'ControliD',
+      columns: 48,
+      feed: 0,
+      fonts: [
+        {
+          name: 'Font A',
+          columns: 48,
+        },
+        {
+          name: 'Font B',
+          columns: 64,
+        },
+      ],
     },
     perto: {
       profile: 'elgin',
@@ -216,16 +261,16 @@ export default {
     },
     generic: {
       brand: 'Generic',
-      columns: 32,
+      columns: 48,
       codepage: 'cp850',
       fonts: [
         {
           name: 'Font A',
-          columns: 32,
+          columns: 48,
         },
         {
           name: 'Font B',
-          columns: 42,
+          columns: 56,
         },
       ],
       initialize: '\x1BR\x0C',
@@ -248,6 +293,20 @@ export default {
         cp862: '\x1Bt\x0F',
         iso88592: '\x1Bt\x10',
       },
+    },
+    generic58: {
+      profile: 'generic',
+      columns: 32,
+      fonts: [
+        {
+          name: 'Font A',
+          columns: 32,
+        },
+        {
+          name: 'Font B',
+          columns: 42,
+        },
+      ],
     },
   },
 };

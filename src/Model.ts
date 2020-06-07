@@ -40,6 +40,8 @@ export default class Model {
         return new Elgin(capability);
       case 'generic':
         return new Generic(capability);
+      case 'generic58':
+        return new Generic(capability);
       case 'perto':
         return new Perto(capability);
       case 'sweda':
