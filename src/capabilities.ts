@@ -1,94 +1,314 @@
 export type Font = {
+  /**
+   * Font name, ex: Font A, Font B
+   */
   name: string;
+
+  /**
+   * Max columns to use in this font
+   */
   columns: number;
 };
 
 export type CodePage = {
+  /**
+   * Code page, ex: cp850, utf8
+   */
   code: string;
+
+  /**
+   * Command to use this code page
+   */
   command: string;
 };
 
 export type Capability = {
+  /**
+   * Profile to process printer commands
+   */
   profile: string;
+
+  /**
+   * Printer brand
+   */
   brand: string;
+
+  /**
+   * Printer model reference
+   */
   model: string;
+
+  /**
+   * Printer model name
+   */
   name?: string;
+
+  /**
+   * Default columns number
+   */
   columns: number;
+
+  /**
+   * Default feed rows to cut properly
+   */
   feed?: number;
+
+  /**
+   * Available fonts
+   */
   fonts: Font[];
+
+  /**
+   * Default code page
+   */
   codepage: string;
+
+  /**
+   * Initialize printer with this command
+   */
   initialize?: string;
+
+  /**
+   * Available code pages
+   */
   codepages: CodePage[];
 };
 
 export default {
-  models: {
-    'MP-4200 TH': 'bematech',
-    'MP-2800 TH': {
+  models: [
+    // Bematech
+    {
+      model: 'MP-4200 TH',
       profile: 'bematech',
-      feed: 3,
     },
-    'MP-2500 TH': {
+    {
+      model: 'MP-2800 TH',
+      profile: 'bematech',
+      columns: 48,
+      feed: 4,
+      fonts: [
+        {
+          name: 'Font A',
+          columns: 48,
+        },
+        {
+          name: 'Font B',
+          columns: 64,
+        },
+      ],
+    },
+    {
+      model: 'MP-2500 TH',
       profile: 'bematech',
       feed: 6,
     },
-    'MP-2100 TH': {
+    {
+      model: 'MP-2100 TH',
       profile: 'bematech',
       feed: 6,
     },
-    'MP-4000 TH': 'bematech',
-    'MP-5100 TH': 'bematech',
-    'MP-100S TH': 'bematech',
-    'MP-20 MI': 'bematech',
+    {
+      model: 'MP-4000 TH',
+      profile: 'bematech',
+    },
+    {
+      model: 'MP-5100 TH',
+      profile: 'bematech',
+    },
+    {
+      model: 'MP-100S TH',
+      profile: 'bematech',
+    },
+    {
+      model: 'MP-20 MI',
+      profile: 'bematech',
+    },
 
-    'TM-T20': 'tmt20',
-    'TM-T81': 'epson',
-    'TM-T88': 'epson',
+    // Epson
+    {
+      model: 'TM-T20',
+      profile: 'epson',
+      columns: 48,
+      fonts: [
+        {
+          name: 'Font 1',
+          columns: 42,
+        },
+        {
+          name: 'Font A',
+          columns: 48,
+        },
+        {
+          name: 'Font 2',
+          columns: 60,
+        },
+        {
+          name: 'Font B',
+          columns: 64,
+        },
+      ],
+    },
+    {
+      model: 'TM-T81',
+      profile: 'epson',
+    },
+    {
+      model: 'TM-T88',
+      profile: 'epson',
+    },
 
-    I9: 'elgin',
-    I7: 'elgin',
-    VOX: 'elgin',
-    'VOX+': 'elgin',
-    NIX: 'elgin',
+    // Elgin
+    {
+      model: 'I9',
+      profile: 'elgin',
+      columns: 48,
+      feed: 5,
+      fonts: [
+        {
+          name: 'Font A',
+          columns: 48,
+        },
+        {
+          name: 'Font B',
+          columns: 64,
+        },
+      ],
+    },
+    {
+      model: 'I7',
+      profile: 'elgin',
+    },
+    {
+      model: 'VOX',
+      profile: 'elgin',
+    },
+    {
+      model: 'VOX+',
+      profile: 'elgin',
+    },
+    {
+      model: 'NIX',
+      profile: 'elgin',
+    },
 
-    DR800: {
+    // Daruma
+    {
+      model: 'DR800',
       profile: 'daruma',
       feed: 2,
     },
-    DR700: 'daruma',
-    DR600: 'daruma',
-    DS348: 'daruma',
-    DS300: 'daruma',
+    {
+      model: 'DR700',
+      profile: 'daruma',
+    },
+    {
+      model: 'DR600',
+      profile: 'daruma',
+    },
+    {
+      model: 'DS348',
+      profile: 'daruma',
+    },
+    {
+      model: 'DS300',
+      profile: 'daruma',
+    },
 
-    'TSP-143': 'diebold',
-    IM453: 'diebold',
-    IM433: 'diebold',
-    IM402: 'diebold',
-    IM113: 'diebold',
-    IM833: {
+    // Diebold
+    {
+      model: 'TSP-143',
+      profile: 'diebold',
+    },
+    {
+      model: 'IM453',
+      profile: 'diebold',
+    },
+    {
+      model: 'IM433',
+      profile: 'diebold',
+    },
+    {
+      model: 'IM402',
+      profile: 'diebold',
+    },
+    {
+      model: 'IM113',
+      profile: 'diebold',
+    },
+    {
+      model: 'IM833',
       profile: 'diebold',
       name: 'Mecaf Perfecta',
     },
 
-    'SI-300L': 'sweda',
-    'SI-300S': 'sweda',
-    'SI-300W': 'sweda',
-    'SI-250': 'sweda',
+    // Sweda
+    {
+      model: 'SI-300L',
+      profile: 'sweda',
+    },
+    {
+      model: 'SI-300S',
+      profile: 'sweda',
+    },
+    {
+      model: 'SI-300W',
+      profile: 'sweda',
+    },
+    {
+      model: 'SI-250',
+      profile: 'sweda',
+    },
 
-    'E-3202': 'dataregis',
-    DT200: 'dataregis',
+    // Dataregis
+    {
+      model: 'E-3202',
+      profile: 'dataregis',
+    },
+    {
+      model: 'DT200',
+      profile: 'dataregis',
+    },
 
-    PrintiD: 'controlid',
+    // ControliD
+    {
+      model: 'PrintiD',
+      profile: 'controlid',
+    },
 
-    PertoPrinter: 'perto',
+    // Perto
+    {
+      model: 'PertoPrinter',
+      profile: 'perto',
+    },
 
-    'POS-80': 'generic',
-    'POS-58': 'generic58',
-    'CMP-20': {
-      profile: 'generic58',
+    // Citizen
+    {
+      model: 'CMP-20',
+      profile: 'generic',
       brand: 'Citizen',
     },
-  },
+
+    // Generic
+    {
+      model: 'POS-80',
+      profile: 'generic',
+      columns: 48,
+      fonts: [
+        {
+          name: 'Font A',
+          columns: 48,
+        },
+        {
+          name: 'Font B',
+          columns: 56,
+        },
+      ],
+    },
+    {
+      model: 'POS-58',
+      profile: 'generic',
+    },
+  ],
   profiles: {
     epson: {
       brand: 'Epson',
@@ -117,28 +337,6 @@ export default {
         cp852: '\x1Bt\x12',
         cp858: '\x1Bt\x13',
       },
-    },
-    tmt20: {
-      profile: 'epson',
-      columns: 48,
-      fonts: [
-        {
-          name: 'Font 1',
-          columns: 42,
-        },
-        {
-          name: 'Font A',
-          columns: 48,
-        },
-        {
-          name: 'Font 2',
-          columns: 60,
-        },
-        {
-          name: 'Font B',
-          columns: 64,
-        },
-      ],
     },
     bematech: {
       brand: 'Bematech',
@@ -261,16 +459,16 @@ export default {
     },
     generic: {
       brand: 'Generic',
-      columns: 48,
       codepage: 'cp850',
+      columns: 32,
       fonts: [
         {
           name: 'Font A',
-          columns: 48,
+          columns: 32,
         },
         {
           name: 'Font B',
-          columns: 56,
+          columns: 42,
         },
       ],
       initialize: '\x1BR\x0C',
@@ -293,20 +491,6 @@ export default {
         cp862: '\x1Bt\x0F',
         iso88592: '\x1Bt\x10',
       },
-    },
-    generic58: {
-      profile: 'generic',
-      columns: 32,
-      fonts: [
-        {
-          name: 'Font A',
-          columns: 32,
-        },
-        {
-          name: 'Font B',
-          columns: 42,
-        },
-      ],
     },
   },
 };

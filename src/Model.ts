@@ -18,7 +18,7 @@ export default class Model {
 
   constructor(model: string | Profile) {
     if (typeof model === 'string') {
-      this._profile = this.instance(Model.EXPAND(model));
+      this._profile = this.instance(Model.EXPAND(Model.FIND(model)));
     } else {
       this._profile = model;
     }
@@ -40,8 +40,6 @@ export default class Model {
         return new Elgin(capability);
       case 'generic':
         return new Generic(capability);
-      case 'generic58':
-        return new Generic(capability);
       case 'perto':
         return new Perto(capability);
       case 'sweda':
@@ -62,9 +60,19 @@ export default class Model {
     return target;
   }
 
-  static EXPAND(model: string): Capability {
-    let capability = {
-      model,
+  static FIND(model: string): object {
+    let profile = capabilities.models.find(
+      (profile: object) => profile['model'] == model,
+    );
+    if (!profile) {
+      throw new Error(`Printer model "${model}" not supported`);
+    }
+    return profile;
+  }
+
+  static EXPAND(profile: object): Capability {
+    const capability = {
+      model: undefined,
       profile: undefined,
       brand: undefined,
       columns: undefined,
@@ -72,16 +80,8 @@ export default class Model {
       codepage: undefined,
       codepages: undefined,
     };
-    if (!(model in capabilities.models)) {
-      throw new Error(`Printer model "${model}" not supported`);
-    }
-    if (cache.has(model)) {
-      return cache.get(model);
-    }
-    let profile = capabilities.models[model];
-    if (typeof profile === 'string') {
-      capability['profile'] = profile;
-      profile = capabilities.profiles[profile];
+    if (cache.has(profile['model'])) {
+      return cache.get(profile['model']);
     }
     Model.ASSIGN_DEFINED(
       capability,
@@ -100,14 +100,12 @@ export default class Model {
         command: capability.codepages[code],
       }),
     );
-    cache.set(model, capability);
+    cache.set(capability.model, capability);
     return capability;
   }
 
   static ALL(): Capability[] {
-    return Object.keys(capabilities.models).map((key: string) =>
-      Model.EXPAND(key),
-    );
+    return capabilities.models.map((profile: object) => Model.EXPAND(profile));
   }
 
   get name(): string {
