@@ -10,9 +10,7 @@ export default class Elgin extends Epson {
   }
 
   buzzer(): void {
-    this.connection.write(
-      Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'),
-    );
+    this.connection.write(Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'));
   }
 
   drawer(number: Drawer, on_time: number, _: number): void {
