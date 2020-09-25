@@ -56,4 +56,35 @@ describe('elgin model profile', () => {
     printer.cutter(Cut.Full)
     expect(connection.buffer()).toStrictEqual(load('i9_cutter_full', connection.buffer()))
   })
+
+  it('cut paper partially from model VOX', () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('VOX'), connection)
+    printer.writeln('Cut below', 0, Align.Center)
+    printer.cutter()
+    expect(connection.buffer()).toStrictEqual(load('vox_cutter', connection.buffer()))
+  })
+
+  it('write bold text from model VOX', () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('VOX'), connection)
+    printer.writeln('Bold text', Style.Bold, Align.Center)
+    expect(connection.buffer()).toStrictEqual(load('vox_bold_text', connection.buffer()))
+  })
+
+  it('write text with double width and height from model VOX', () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('VOX'), connection)
+    printer.writeln('Large Text', Style.DoubleWidth + Style.DoubleHeight, Align.Center)
+    expect(connection.buffer()).toStrictEqual(load('vox_large_text', connection.buffer()))
+  })
+
+  it('draw qrcode from model VOX', async () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('VOX'), connection)
+    printer.alignment = Align.Center
+    await printer.qrcode('https://github.com/grandchef/escpos-buffer')
+    printer.alignment = Align.Left
+    expect(connection.buffer()).toStrictEqual(load('vox_qrcode', connection.buffer()))
+  })
 })

@@ -162,7 +162,7 @@ export default {
       model: 'I9',
       profile: 'elgin',
       columns: 48,
-      feed: 5,
+      feed: 4,
       fonts: [
         {
           name: 'Font A',

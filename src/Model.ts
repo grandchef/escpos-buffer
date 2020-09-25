@@ -61,7 +61,7 @@ export default class Model {
   }
 
   static FIND(model: string): object {
-    let profile = capabilities.models.find(
+    const profile = capabilities.models.find(
       (profile: object) => profile['model'] == model,
     );
     if (!profile) {

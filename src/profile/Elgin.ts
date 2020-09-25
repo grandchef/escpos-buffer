@@ -3,16 +3,15 @@ import { Drawer, Style, Cut } from '../Printer';
 
 export default class Elgin extends Epson {
   cutter(mode: Cut): void {
-    if (mode == Cut.Full) {
-      this.connection.write(Buffer.from('\x1Bw', 'ascii'));
-      return;
+    if (this.capabilities.model == 'I9') {
+      return this.connection.write(Buffer.from('\x1DV0', 'ascii'));
     }
     super.cutter(mode);
   }
 
   buzzer(): void {
     this.connection.write(
-      Buffer.from('\x1B(A\x04\x00\x01\xFF\x00\xFF', 'ascii'),
+      Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'),
     );
   }
 
@@ -30,6 +29,9 @@ export default class Elgin extends Epson {
   }
 
   protected setStyle(style: Style, enable: boolean): void {
+    if (this.capabilities.model == 'I9') {
+      return super.setStyle(style, enable);
+    }
     if (enable) {
       // enable styles
       if (Style.Bold == style) {
@@ -47,6 +49,9 @@ export default class Elgin extends Epson {
   }
 
   protected setMode(mode: number, enable: boolean): void {
+    if (this.capabilities.model == 'I9') {
+      return super.setMode(mode, enable);
+    }
     if (enable) {
       if (mode & Style.DoubleWidth) {
         this.connection.write(Buffer.from('\x1BW\x01', 'ascii'));
@@ -65,6 +70,9 @@ export default class Elgin extends Epson {
   }
 
   async qrcode(data: string, size: number) {
+    if (this.capabilities.model == 'I9') {
+      return super.qrcode(data, size);
+    }
     const type = String.fromCharCode(2);
     const error = 'M';
     const _size = String.fromCharCode(Math.min(255, Math.max(1, size || 4)));
