@@ -13,7 +13,10 @@ export default class Elgin extends Epson {
     this.connection.write(Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'));
   }
 
-  drawer(number: Drawer, on_time: number, _: number): void {
+  drawer(number: Drawer, on_time: number, off_time: number): void {
+    if (this.capabilities.model == 'I7') {
+      return super.drawer(number, on_time, off_time);
+    }
     const index = {
       [Drawer.First]: 'v',
       [Drawer.Second]: 'v',
