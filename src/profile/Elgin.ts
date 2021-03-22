@@ -14,7 +14,7 @@ export default class Elgin extends Epson {
   }
 
   drawer(number: Drawer, on_time: number, off_time: number): void {
-    if (this.capabilities.model == 'I7') {
+    if (this.capabilities.model.startsWith('I')) {
       return super.drawer(number, on_time, off_time);
     }
     const index = {
