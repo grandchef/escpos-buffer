@@ -398,7 +398,7 @@ export default {
       profile: 'epson',
       columns: 48,
       feed: 8,
-      codepage: 'cp850',
+      codepage: 'cp1252',
       fonts: [
         {
           name: 'Font A',

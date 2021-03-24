@@ -1,5 +1,6 @@
 import Epson from './Epson';
 import { Drawer, Style, Align } from '../Printer';
+import { Font } from '../capabilities';
 
 export default class Daruma extends Epson {
   drawer(number: Drawer, _: number, __: number): void {
@@ -56,6 +57,15 @@ export default class Daruma extends Epson {
 
   feed(lines: number): void {
     this.connection.write(Buffer.from('\r\n'.repeat(lines), 'ascii'));
+  }
+
+  initialize() {
+    this.fontChanged(this.font, this.font);
+  }
+
+  protected fontChanged(current: Font, previows: Font) {
+    super.fontChanged(current, previows);
+    this.applyCodePage();
   }
 
   async qrcode(data: string, size: number) {

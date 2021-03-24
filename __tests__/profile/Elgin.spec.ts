@@ -41,6 +41,13 @@ describe('elgin model profile', () => {
     expect(connection.buffer()).toStrictEqual(load('i9_drawer', connection.buffer()))
   })
 
+  it('activate drawer from model VOX', () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('VOX'), connection)
+    printer.drawer()
+    expect(connection.buffer()).toStrictEqual(load('vox_drawer', connection.buffer()))
+  })
+
   it('activate drawer from model I7', () => {
     const connection = new InMemory()
     const printer = new Printer(new Model('I7'), connection)

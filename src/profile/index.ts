@@ -200,7 +200,7 @@ export abstract class Profile {
     }
   }
 
-  private applyCodePage() {
+  protected applyCodePage() {
     this.connection.write(Buffer.from(this._codepage.command, 'ascii'));
   }
 
