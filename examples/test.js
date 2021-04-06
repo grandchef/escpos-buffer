@@ -67,3 +67,7 @@ printer.writeln()
 
 
 //> node examples/test.js "MODEL" COLUMNS | lp -d PRINTER_NAME
+
+// For Windows
+//> node examples\test.js "MODEL" COLUMNS > output.bin
+//> print /d:\\%COMPUTERNAME%\PRINTER_NAME output.bin
