@@ -273,12 +273,19 @@ export default {
     {
       model: 'PrintiD',
       profile: 'controlid',
+      name: 'Print iD',
+    },
+    {
+      model: 'PrintiD-Touch',
+      profile: 'controlid',
+      name: 'Print iD Touch',
     },
 
     // Perto
     {
       model: 'PertoPrinter',
       profile: 'perto',
+      name: 'Perto Printer',
     },
 
     // Citizen
@@ -431,6 +438,10 @@ export default {
       columns: 48,
       feed: 0,
       fonts: [
+        {
+          name: 'Font C',
+          columns: 48,
+        },
         {
           name: 'Font A',
           columns: 48,

@@ -1,5 +1,6 @@
 import Epson from './Epson';
 import { Style } from '../Printer';
+import { Font } from '../capabilities';
 
 export default class ControliD extends Epson {
   protected setStyle(style: Style, enable: boolean): void {
@@ -21,5 +22,19 @@ export default class ControliD extends Epson {
 
   async qrcode(data: string, size: number) {
     await this.drawQrcode(data, size);
+  }
+
+  initialize() {
+    super.initialize();
+    this.fontChanged(this.font, this.font);
+  }
+
+  protected fontChanged(current: Font, previows: Font) {
+    if (current.name == 'Font C') {
+      this.connection.write(Buffer.from('\x1BM\x02', 'ascii'));
+    } else {
+      // Font A and B
+      super.fontChanged(current, previows);
+    }
   }
 }
