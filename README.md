@@ -1,7 +1,8 @@
+[![Latest Version][version-badge]][npm-link]
+[![Build Status][github-badge]][github-ci]
 [![TypeScript version][ts-badge]][typescript-37]
 [![Node.js version][nodejs-badge]][nodejs]
 [![MIT][license-badge]][LICENSE]
-[![Build Status][travis-badge]][travis-ci]
 
 # ESC/POS Printer Library
 
@@ -86,11 +87,16 @@ const printer = new Printer(model, connection)
 Licensed under the MIT. See the [LICENSE](https://github.com/grandchef/escpos-buffer/blob/master/LICENSE) file for details.
 
 [ts-badge]: https://img.shields.io/badge/TypeScript-3.7-blue.svg
+[typescript-37]: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html
+
 [nodejs-badge]: https://img.shields.io/badge/Node.js->=%2010-blue.svg
 [nodejs]: https://nodejs.org/dist/latest-v10.x/docs/api/
-[travis-badge]: https://travis-ci.org/grandchef/escpos-buffer.svg?branch=master
-[travis-ci]: https://travis-ci.org/grandchef/escpos-buffer
-[typescript]: https://www.typescriptlang.org/
-[typescript-37]: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html
+
+[github-badge]: https://github.com/grandchef/escpos-buffer/actions/workflows/main.yml/badge.svg
+[github-ci]: https://github.com/grandchef/escpos-buffer/actions
+
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license]: https://github.com/grandchef/escpos-buffer/blob/master/LICENSE
+
+[version-badge]: https://img.shields.io/npm/v/escpos-buffer?label=escpos-buffer
+[npm-link]: https://www.npmjs.com/package/escpos-buffer
