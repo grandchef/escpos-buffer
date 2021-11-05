@@ -22,7 +22,7 @@ export default class ControliD extends Epson {
 
   async qrcode(data: string, size: number) {
     // Print iD Touch qrcode works with epson commands
-    if(this.capabilities.model == 'PrintiD-Touch') {
+    if (this.capabilities.model == 'PrintiD-Touch') {
       await super.qrcode(data, size);
     } else {
       await this.drawQrcode(data, size);
