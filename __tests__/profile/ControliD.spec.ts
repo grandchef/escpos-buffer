@@ -35,4 +35,13 @@ describe('controlid model profile', () => {
     printer.alignment = Align.Left
     expect(connection.buffer()).toStrictEqual(load('printid_qrcode', connection.buffer()))
   })
+
+  it('draw qrcode from model PrintiD Touch', async () => {
+    const connection = new InMemory()
+    const printer = new Printer(new Model('PrintiD-Touch'), connection)
+    printer.alignment = Align.Center
+    await printer.qrcode('https://github.com/grandchef/escpos-buffer')
+    printer.alignment = Align.Left
+    expect(connection.buffer()).toStrictEqual(load('printid_touch_qrcode', connection.buffer()))
+  })
 })
