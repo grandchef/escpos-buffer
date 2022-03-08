@@ -9,47 +9,47 @@ import Elgin from '../src/profile/Elgin';
 import { load } from './helper';
 
 describe('print formatted text', () => {
-  it('write text', () => {
+  it('write text', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.write('Simple Text');
-    printer.feed();
+    await printer.write('Simple Text');
+    await printer.feed();
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_write_text', connection.buffer()),
     );
   });
 
-  it('write line', () => {
+  it('write line', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln('Simple Line');
+    await printer.writeln('Simple Line');
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_write_line', connection.buffer()),
     );
   });
 
-  it('write empty line', () => {
+  it('write empty line', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln();
+    await printer.writeln();
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_write_empty_line', connection.buffer()),
     );
   });
 
-  it('write bold text', () => {
+  it('write bold text', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln('Bold text', Style.Bold, Align.Center);
+    await printer.writeln('Bold text', Style.Bold, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_bold_text', connection.buffer()),
     );
   });
 
-  it('write text with double width and height', () => {
+  it('write text with double width and height', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln(
+    await printer.writeln(
       'Large Text',
       Style.DoubleWidth + Style.DoubleHeight,
       Align.Center,
@@ -59,28 +59,28 @@ describe('print formatted text', () => {
     );
   });
 
-  it('write italic text', () => {
+  it('write italic text', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln('Italic Text', Style.Italic, Align.Center);
+    await printer.writeln('Italic Text', Style.Italic, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_italic_text', connection.buffer()),
     );
   });
 
-  it('write underline text', () => {
+  it('write underline text', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln('Underline Text', Style.Underline, Align.Center);
+    await printer.writeln('Underline Text', Style.Underline, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_underline_text', connection.buffer()),
     );
   });
 
-  it('write condensed text', () => {
+  it('write condensed text', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.writeln('Condensed Text', Style.Condensed, Align.Center);
+    await printer.writeln('Condensed Text', Style.Condensed, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_condensed_text', connection.buffer()),
     );
@@ -100,7 +100,7 @@ describe('print formatted text', () => {
   it('emit buzzer', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.buzzer();
+    await printer.buzzer();
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_buzzer', connection.buffer()),
     );
@@ -109,7 +109,7 @@ describe('print formatted text', () => {
   it('activate drawer', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.drawer();
+    await printer.drawer();
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_drawer', connection.buffer()),
     );
@@ -118,7 +118,7 @@ describe('print formatted text', () => {
   it('cut paper', async () => {
     const connection = new InMemory();
     const printer = new Printer(new Model('TM-T20'), connection);
-    printer.cutter();
+    await printer.cutter();
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_cut', connection.buffer()),
     );
@@ -129,7 +129,7 @@ describe('print formatted text', () => {
     const printer = new Printer(new Model('MP-4200 TH'), connection);
     const image = new Image(path.join(__dirname, 'resources/sample.png'));
     printer.alignment = Align.Center;
-    printer.draw(image);
+    await printer.draw(image);
     printer.alignment = Align.Left;
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_draw_file', connection.buffer()),
@@ -141,9 +141,9 @@ describe('print formatted text', () => {
     const printer = new Printer(new Model('MP-4200 TH'), connection);
     const image = new Image(load('sample.png'));
     printer.alignment = Align.Center;
-    printer.draw(image);
+    await printer.draw(image);
     printer.alignment = Align.Left;
-    printer.close();
+    await printer.close();
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_draw_buffer', connection.buffer()),
     );
@@ -200,12 +200,12 @@ describe('print formatted text', () => {
     expect(printer.columns).toBe(56);
   });
 
-  it('change codepage', async () => {
+  it.only('change codepage', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
     const printer = new Printer(model, connection);
     printer.codepage = 'utf8';
-    printer.writeln('Açênts');
+    await printer.writeln('Açênts');
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_utf8_text', connection.buffer()),
     );
@@ -231,7 +231,7 @@ describe('print formatted text', () => {
     await expect(model.profile.feed(1)).rejects.toThrow();
   });
 
-  it('should forward withStyle to the profile', () => {
+  it('should forward withStyle to the profile', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
     const withStyleSpy = jest
@@ -244,7 +244,7 @@ describe('print formatted text', () => {
       height: 8,
     };
     const cb = jest.fn();
-    printer.withStyle(styleConf, cb);
+    await printer.withStyle(styleConf, cb);
 
     expect(withStyleSpy).toHaveBeenCalledWith(styleConf, cb);
     expect(cb).toHaveBeenCalledTimes(1);
