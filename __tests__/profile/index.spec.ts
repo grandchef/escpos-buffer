@@ -14,15 +14,15 @@ class MockProfile extends Profile {
     number: Drawer,
     on_time: number,
     off_time: number,
-  ) => void = jest.fn();
+  ) => Promise<void> = jest.fn();
   qrcode: (data: string, size: number) => Promise<void> = jest.fn();
-  setMode: (mode: number, enable: boolean) => void = jest.fn();
-  setStyle: (style: Style, enable: boolean) => void = jest.fn();
-  setStyles: (styles: number, enable: boolean) => void = jest.fn();
+  setMode: (mode: number, enable: boolean) => Promise<void> = jest.fn();
+  setStyle: (style: Style, enable: boolean) => Promise<void> = jest.fn();
+  setStyles: (styles: number, enable: boolean) => Promise<void> = jest.fn();
   setCharSize: (charSize: {
     width: number;
     height: number;
-  }) => void = jest.fn();
+  }) => Promise<void> = jest.fn();
 }
 const capability: Capability = {
   columns: 42,
