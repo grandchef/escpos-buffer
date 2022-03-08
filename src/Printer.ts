@@ -42,12 +42,12 @@ export default class Printer {
     this.model.profile.codepage = value;
   }
 
-  buzzer() {
-    this.model.profile.buzzer();
+  async buzzer() {
+    return this.model.profile.buzzer();
   }
 
-  cutter(mode: Cut = Cut.Partial) {
-    this.model.profile.cutter(mode);
+  async cutter(mode: Cut = Cut.Partial) {
+    return this.model.profile.cutter(mode);
   }
 
   /**
@@ -55,12 +55,12 @@ export default class Printer {
    * @param on_time time in milliseconds that activate the drawer
    * @param off_time time in milliseconds that deactivate the drawer
    */
-  drawer(
+  async drawer(
     number: Drawer = Drawer.First,
     on_time: number = 120,
     off_time: number = 240,
   ) {
-    this.model.profile.drawer(number, on_time, off_time);
+    return this.model.profile.drawer(number, on_time, off_time);
   }
 
   async draw(image: Image) {
@@ -68,7 +68,7 @@ export default class Printer {
   }
 
   async qrcode(data: string, size: number = null) {
-    await this.model.profile.qrcode(data, size);
+    return this.model.profile.qrcode(data, size);
   }
 
   set alignment(align: Align) {
@@ -79,12 +79,16 @@ export default class Printer {
     return this.model.profile.write(text, styles);
   }
 
-  writeln(text: string = '', styles: number = 0, align: Align = Align.Left) {
-    this.model.profile.writeln(text, styles, align);
+  async writeln(
+    text: string = '',
+    styles: number = 0,
+    align: Align = Align.Left,
+  ) {
+    return this.model.profile.writeln(text, styles, align);
   }
 
-  withStyle(styleConf: StyleConf, cb: Function) {
-    this.model.profile.withStyle(styleConf, cb);
+  async withStyle(styleConf: StyleConf, cb: Function) {
+    return this.model.profile.withStyle(styleConf, cb);
   }
 
   async feed(lines: number = 1) {
@@ -99,7 +103,7 @@ export default class Printer {
     this.model.profile.columns = value;
   }
 
-  close() {
-    this.model.profile.finalize();
+  async close() {
+    return this.model.profile.finalize();
   }
 }
