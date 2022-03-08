@@ -2,14 +2,14 @@ import Epson from './Epson';
 import { Drawer, Style, Cut } from '../Printer';
 
 export default class Elgin extends Epson {
-  cutter(mode: Cut): void {
+  async cutter(mode: Cut): Promise<void> {
     if (this.capabilities.model == 'I9') {
       return this.connection.write(Buffer.from('\x1DV0', 'ascii'));
     }
     super.cutter(mode);
   }
 
-  buzzer(): void {
+  async buzzer(): Promise<void> {
     this.connection.write(Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'));
   }
 

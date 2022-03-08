@@ -1,6 +1,6 @@
 import { Connection } from '.';
 
-export default class WebUSB implements Connection {
+export default class WebUSB implements Connection<USBOutTransferResult> {
   private endpointNumber: number = 1;
 
   constructor(private device: USBDevice) {}

@@ -55,8 +55,8 @@ export default class Daruma extends Epson {
     }
   }
 
-  feed(lines: number): void {
-    this.connection.write(Buffer.from('\r\n'.repeat(lines), 'ascii'));
+  async feed(lines: number): Promise<void> {
+    return this.connection.write(Buffer.from('\r\n'.repeat(lines), 'ascii'));
   }
 
   initialize() {

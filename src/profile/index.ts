@@ -28,11 +28,11 @@ export abstract class Profile {
     this.codepage = this.capabilities.codepage;
   }
 
-  abstract feed(lines: number): void;
+  abstract feed(lines: number): Promise<void>;
 
-  abstract cutter(mode: Cut): void;
+  abstract cutter(mode: Cut): Promise<void>;
 
-  abstract buzzer(): void;
+  abstract buzzer(): Promise<void>;
 
   /**
    * @param number drawer id
@@ -43,7 +43,7 @@ export abstract class Profile {
 
   abstract set alignment(align: Align);
 
-  abstract async qrcode(data: string, size: number): Promise<void>;
+  abstract qrcode(data: string, size: number): Promise<void>;
 
   protected abstract setMode(mode: number, enable: boolean): void;
 

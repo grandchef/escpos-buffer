@@ -3,7 +3,7 @@ import { Profile } from '.';
 import { Font } from '../capabilities';
 
 export default class Epson extends Profile {
-  feed(lines: number): void {
+  async feed(lines: number): Promise<void> {
     if (lines > 1) {
       const count = Math.trunc(lines / 255);
       let cmd = ('\x1Bd' + String.fromCharCode(Math.min(lines, 255))).repeat(
@@ -13,18 +13,18 @@ export default class Epson extends Profile {
       if (remaining > 0) {
         cmd += '\x1Bd' + String.fromCharCode(remaining);
       }
-      this.connection.write(Buffer.from(cmd));
+      return this.connection.write(Buffer.from(cmd));
     } else {
-      this.connection.write(Buffer.from('\r\n', 'ascii'));
+      return this.connection.write(Buffer.from('\r\n', 'ascii'));
     }
   }
 
-  cutter(_: Cut): void {
-    this.connection.write(Buffer.from('\x1Bm', 'ascii'));
+  async cutter(_: Cut): Promise<void> {
+    return this.connection.write(Buffer.from('\x1Bm', 'ascii'));
   }
 
-  buzzer(): void {
-    this.connection.write(Buffer.from('\x07', 'ascii'));
+  async buzzer(): Promise<void> {
+    return this.connection.write(Buffer.from('\x07', 'ascii'));
   }
 
   drawer(number: Drawer, on_time: number, off_time: number): void {

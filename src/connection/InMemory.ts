@@ -3,15 +3,15 @@ import { Connection } from '.';
 export default class InMemory implements Connection {
   list: Buffer[];
 
-  open(): void {
+  async open(): Promise<void> {
     this.list = [];
   }
 
-  write(data: Buffer): void {
+  async write(data: Buffer): Promise<void> {
     this.list.push(data);
   }
 
-  close(): void {}
+  async close(): Promise<void> {}
 
   buffer() {
     return Buffer.concat(this.list);

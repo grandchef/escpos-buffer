@@ -7,15 +7,22 @@ class MockProfile extends Profile {
     return null;
   }
   set alignment(_: number) {}
-  feed: (lines: number) => void = jest.fn();
-  cutter: (mode: Cut) => void = jest.fn();
-  buzzer: () => void = jest.fn();
-  drawer: (number: Drawer, on_time: number, off_time: number) => void = jest.fn();
+  feed: (lines: number) => Promise<void> = jest.fn();
+  cutter: (mode: Cut) => Promise<void> = jest.fn();
+  buzzer: () => Promise<void> = jest.fn();
+  drawer: (
+    number: Drawer,
+    on_time: number,
+    off_time: number,
+  ) => void = jest.fn();
   qrcode: (data: string, size: number) => Promise<void> = jest.fn();
   setMode: (mode: number, enable: boolean) => void = jest.fn();
   setStyle: (style: Style, enable: boolean) => void = jest.fn();
   setStyles: (styles: number, enable: boolean) => void = jest.fn();
-  setCharSize: (charSize: { width: number, height: number }) => void = jest.fn();
+  setCharSize: (charSize: {
+    width: number;
+    height: number;
+  }) => void = jest.fn();
 }
 const capability: Capability = {
   columns: 42,

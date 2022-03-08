@@ -227,10 +227,8 @@ describe('print formatted text', () => {
   });
 
   it('write without connection', async () => {
-    expect(() => {
-      const model = new Model('MP-4200 TH');
-      model.profile.feed(1);
-    }).toThrow();
+    const model = new Model('MP-4200 TH');
+    await expect(model.profile.feed(1)).rejects.toThrow();
   });
 
   it('should forward withStyle to the profile', () => {

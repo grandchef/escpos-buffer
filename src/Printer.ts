@@ -63,8 +63,8 @@ export default class Printer {
     this.model.profile.drawer(number, on_time, off_time);
   }
 
-  draw(image: Image) {
-    this.model.profile.draw(image);
+  async draw(image: Image) {
+    return this.model.profile.draw(image);
   }
 
   async qrcode(data: string, size: number = null) {
@@ -75,8 +75,8 @@ export default class Printer {
     this.model.profile.alignment = align;
   }
 
-  write(text: string, styles: number = 0) {
-    this.model.profile.write(text, styles);
+  async write(text: string, styles: number = 0) {
+    return this.model.profile.write(text, styles);
   }
 
   writeln(text: string = '', styles: number = 0, align: Align = Align.Left) {
@@ -87,8 +87,8 @@ export default class Printer {
     this.model.profile.withStyle(styleConf, cb);
   }
 
-  feed(lines: number = 1) {
-    this.model.profile.feed(lines);
+  async feed(lines: number = 1) {
+    return this.model.profile.feed(lines);
   }
 
   get columns(): number {
