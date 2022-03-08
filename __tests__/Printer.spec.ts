@@ -203,8 +203,8 @@ describe('print formatted text', () => {
   it.only('change codepage', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
-    const printer = new Printer(model, connection);
-    printer.codepage = 'utf8';
+    const printer = await Printer.connectPrinter(model, connection);
+    await printer.setCodepage('utf8');
     await printer.writeln('Açênts');
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_utf8_text', connection.buffer()),

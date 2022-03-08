@@ -31,15 +31,23 @@ export enum Drawer {
 export default class Printer {
   private model: Model;
 
-  constructor(model: Model, connection: Connection) {
-    connection.open();
-    this.model = model;
-    this.model.profile.connection = connection;
-    this.model.profile.initialize();
+  static async connectPrinter(
+    model: Model,
+    connection: Connection,
+  ): Promise<Printer> {
+    await connection.open();
+    const printer = new Printer(model, connection);
+    await model.profile.initialize();
+    return printer;
   }
 
-  set codepage(value: string) {
-    this.model.profile.codepage = value;
+  constructor(model: Model, connection: Connection) {
+    this.model = model;
+    this.model.profile.connection = connection;
+  }
+
+  async setCodepage(value: string) {
+    return this.model.profile.setCodepage(value);
   }
 
   async buzzer() {

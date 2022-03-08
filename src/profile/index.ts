@@ -25,7 +25,7 @@ export abstract class Profile {
   constructor(capabilities: Capability) {
     this.capabilities = capabilities;
     this.columns = this.defaultColumns;
-    this.codepage = this.capabilities.codepage;
+    this.setCodepage(this.capabilities.codepage);
   }
 
   abstract feed(lines: number): Promise<void>;
@@ -192,8 +192,7 @@ export abstract class Profile {
     return this.capabilities.fonts;
   }
 
-  // TODO: This setter calls async methods, but cannot be async itself as it is a setter. This needs to be addressed.
-  set codepage(value: string) {
+  async setCodepage(value: string) {
     const old = this._codepage;
     const codepage = this.capabilities.codepages.find(
       ({ code }: CodePage) => value == code,
@@ -203,7 +202,7 @@ export abstract class Profile {
     }
     this._codepage = codepage;
     if (old && old.code != codepage.code) {
-      this.applyCodePage();
+      await this.applyCodePage();
     }
   }
 
