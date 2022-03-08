@@ -4,7 +4,7 @@ import { Capability } from '../src/capabilities';
 import InMemory from '../src/connection/InMemory';
 import Model from '../src/Model';
 import Printer, { Align, Style } from '../src/Printer';
-import { StyleConf } from '../src/profile';
+import { StyleConf, Profile } from '../src/profile';
 import Elgin from '../src/profile/Elgin';
 import { load } from './helper';
 
@@ -211,7 +211,7 @@ describe('print formatted text', () => {
         },
       ],
     };
-    const profile = new Elgin(capability);
+    const profile = await Profile.initialise(Elgin,capability);
     const model = new Model(profile);
     expect(model.profile.font.name).toBe('Font A');
   });
