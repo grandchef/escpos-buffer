@@ -3,7 +3,7 @@ import InMemory from '../../src/connection/InMemory';
 import Printer, { Align, Style } from '../../src/Printer';
 import { load } from '../helper';
 
-describe('generic model profile', async () => {
+describe('generic model profile', () => {
   it('write line text from model CMP-20', async () => {
     const connection = new InMemory();
     const printer = await Printer.connect(
