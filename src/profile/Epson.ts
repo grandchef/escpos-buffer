@@ -48,14 +48,13 @@ export default class Epson extends Profile {
     );
   }
 
-  // TODO: Cannot use setter syntax when calling async funcitons and allow the consumer to await it.
-  set alignment(align: Align) {
+  async setAlignment(align: Align) {
     const cmd = {
       [Align.Left]: '\x1Ba0',
       [Align.Center]: '\x1Ba1',
       [Align.Right]: '\x1Ba2',
     };
-    this.connection.write(Buffer.from(cmd[align], 'ascii'));
+    return this.connection.write(Buffer.from(cmd[align], 'ascii'));
   }
 
   protected async setMode(mode: number, enable: boolean): Promise<void> {

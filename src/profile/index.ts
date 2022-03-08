@@ -45,7 +45,7 @@ export abstract class Profile {
     off_time: number,
   ): Promise<void>;
 
-  abstract set alignment(align: Align);
+  abstract setAlignment(align: Align): Promise<void>;
 
   abstract qrcode(data: string, size: number): Promise<void>;
 
@@ -72,11 +72,11 @@ export abstract class Profile {
   }
 
   async write(text: string, styles: number): Promise<void> {
-    this.setMode(styles, true);
-    this.setStyles(styles, true);
-    this.connection.write(iconv.encode(text, this._codepage.code));
-    this.setStyles(styles, false);
-    this.setMode(styles, false);
+    await this.setMode(styles, true);
+    await this.setStyles(styles, true);
+    await this.connection.write(iconv.encode(text, this._codepage.code));
+    await this.setStyles(styles, false);
+    await this.setMode(styles, false);
   }
 
   async withStyle(styleConf: StyleConf, cb: Function): Promise<void> {
@@ -94,7 +94,7 @@ export abstract class Profile {
     if (underline) styles |= Style.Underline;
 
     if (align !== Align.Left) {
-      this.alignment = align;
+      await this.setAlignment(align);
     }
     await this.setCharSize({ width, height });
     await this.setStyles(styles, true);
@@ -102,14 +102,14 @@ export abstract class Profile {
     await this.setStyles(styles, false);
     await this.setCharSize({ width: 1, height: 1 });
     if (align !== Align.Left) {
-      this.alignment = Align.Left;
+      await this.setAlignment(Align.Left);
     }
   }
 
   async writeln(text: string, styles: number, align: Align): Promise<void> {
     // apply other alignment
     if (align !== Align.Left) {
-      this.alignment = align;
+      await this.setAlignment(align);
     }
     if (text.length > 0) {
       await this.write(text, styles);
@@ -117,7 +117,7 @@ export abstract class Profile {
     await this.feed(1);
     // reset align to left
     if (align !== Align.Left) {
-      this.alignment = Align.Left;
+      return this.setAlignment(Align.Left);
     }
   }
 

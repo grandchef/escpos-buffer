@@ -116,9 +116,9 @@ describe('print formatted text', () => {
       new Model('MP-4200 TH'),
       connection,
     );
-    printer.alignment = Align.Center;
+    await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
-    printer.alignment = Align.Left;
+    await printer.setAlignment(Align.Left);
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_qrcode', connection.buffer()),
     );
@@ -167,9 +167,9 @@ describe('print formatted text', () => {
       connection,
     );
     const image = new Image(path.join(__dirname, 'resources/sample.png'));
-    printer.alignment = Align.Center;
+    await printer.setAlignment(Align.Center);
     await printer.draw(image);
-    printer.alignment = Align.Left;
+    await printer.setAlignment(Align.Left);
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_draw_file', connection.buffer()),
     );
@@ -182,9 +182,9 @@ describe('print formatted text', () => {
       connection,
     );
     const image = new Image(load('sample.png'));
-    printer.alignment = Align.Center;
+    await printer.setAlignment(Align.Center);
     await printer.draw(image);
-    printer.alignment = Align.Left;
+    await printer.setAlignment(Align.Left);
     await printer.close();
     expect(connection.buffer()).toStrictEqual(
       load('mp-4200_th_draw_buffer', connection.buffer()),

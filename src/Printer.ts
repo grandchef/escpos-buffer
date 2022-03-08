@@ -71,19 +71,19 @@ export default class Printer {
     return this.model.profile.drawer(number, on_time, off_time);
   }
 
-  async draw(image: Image) {
+  async draw(image: Image): Promise<void> {
     return this.model.profile.draw(image);
   }
 
-  async qrcode(data: string, size: number = null) {
+  async qrcode(data: string, size: number = null): Promise<void> {
     return this.model.profile.qrcode(data, size);
   }
 
-  set alignment(align: Align) {
-    this.model.profile.alignment = align;
+  async setAlignment(align: Align): Promise<void> {
+    return this.model.profile.setAlignment(align);
   }
 
-  async write(text: string, styles: number = 0) {
+  async write(text: string, styles: number = 0): Promise<void> {
     return this.model.profile.write(text, styles);
   }
 

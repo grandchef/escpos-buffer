@@ -3,10 +3,10 @@ import { Capability } from '../../src/capabilities';
 import { Style, Align, Cut, Drawer } from '../../src';
 
 class MockProfile extends Profile {
-  get alignment() {
+  get setAlignment() {
     return null;
   }
-  set alignment(_: number) {}
+  set setAlignment(_: number) {}
   feed: (lines: number) => Promise<void> = jest.fn();
   cutter: (mode: Cut) => Promise<void> = jest.fn();
   buzzer: () => Promise<void> = jest.fn();

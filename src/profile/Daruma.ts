@@ -11,13 +11,13 @@ export default class Daruma extends Epson {
     return this.connection.write(Buffer.from('\x1B' + index[number], 'ascii'));
   }
 
-  set alignment(align: Align) {
+  async setAlignment(align: Align): Promise<void> {
     const cmd = {
       [Align.Left]: '\x1Bj0',
       [Align.Center]: '\x1Bj1',
       [Align.Right]: '\x1Bj2',
     };
-    this.connection.write(Buffer.from(cmd[align], 'ascii'));
+    return this.connection.write(Buffer.from(cmd[align], 'ascii'));
   }
 
   protected async setStyle(style: Style, enable: boolean): Promise<void> {
