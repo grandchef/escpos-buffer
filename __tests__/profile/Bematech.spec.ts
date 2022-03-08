@@ -6,7 +6,7 @@ import { load } from '../helper';
 describe('bematech model profile', () => {
   it('write bold text from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -21,7 +21,7 @@ describe('bematech model profile', () => {
 
   it('write bold text on another font from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -34,7 +34,7 @@ describe('bematech model profile', () => {
 
   it('write text with double width and height from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -50,7 +50,7 @@ describe('bematech model profile', () => {
 
   it('draw qrcode from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -64,7 +64,7 @@ describe('bematech model profile', () => {
 
   it('emit buzzer from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -76,7 +76,7 @@ describe('bematech model profile', () => {
 
   it('emit buzzer from model MP-2800 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-2800 TH'),
       connection,
     );
@@ -88,7 +88,7 @@ describe('bematech model profile', () => {
 
   it('emit buzzer on another font from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -101,7 +101,7 @@ describe('bematech model profile', () => {
 
   it('activate drawer from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );
@@ -113,7 +113,7 @@ describe('bematech model profile', () => {
 
   it('activate drawer on another font from model MP-4200 TH', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       await Model.initialise('MP-4200 TH'),
       connection,
     );

@@ -11,7 +11,7 @@ import { load } from './helper';
 describe('print formatted text', () => {
   it('write text', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -24,7 +24,7 @@ describe('print formatted text', () => {
 
   it('write line', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -36,7 +36,7 @@ describe('print formatted text', () => {
 
   it('write empty line', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -48,7 +48,7 @@ describe('print formatted text', () => {
 
   it('write bold text', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -60,7 +60,7 @@ describe('print formatted text', () => {
 
   it('write text with double width and height', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -76,7 +76,7 @@ describe('print formatted text', () => {
 
   it('write italic text', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -88,7 +88,7 @@ describe('print formatted text', () => {
 
   it('write underline text', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -100,7 +100,7 @@ describe('print formatted text', () => {
 
   it('write condensed text', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -112,7 +112,7 @@ describe('print formatted text', () => {
 
   it('draw qrcode', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('MP-4200 TH'),
       connection,
     );
@@ -126,7 +126,7 @@ describe('print formatted text', () => {
 
   it('emit buzzer', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -138,7 +138,7 @@ describe('print formatted text', () => {
 
   it('activate drawer', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -150,7 +150,7 @@ describe('print formatted text', () => {
 
   it('cut paper', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('TM-T20'),
       connection,
     );
@@ -162,7 +162,7 @@ describe('print formatted text', () => {
 
   it('draw picture from file', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('MP-4200 TH'),
       connection,
     );
@@ -177,7 +177,7 @@ describe('print formatted text', () => {
 
   it('draw picture from buffer', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('MP-4200 TH'),
       connection,
     );
@@ -218,7 +218,7 @@ describe('print formatted text', () => {
 
   it('check default columns', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connectPrinter(
+    const printer = await Printer.connect(
       new Model('MP-4200 TH'),
       connection,
     );
@@ -231,7 +231,7 @@ describe('print formatted text', () => {
   it('change columns', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
-    const printer = await Printer.connectPrinter(model, connection);
+    const printer = await Printer.connect(model, connection);
     printer.setColumns = 42;
     expect(model.profile.font.name).toBe('Font A');
   });
@@ -239,7 +239,7 @@ describe('print formatted text', () => {
   it('overflow columns', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
-    const printer = await Printer.connectPrinter(model, connection);
+    const printer = await Printer.connect(model, connection);
     printer.setColumns = 62;
     expect(model.profile.font.name).toBe('Font B');
     expect(printer.setColumns).toBe(56);
@@ -248,7 +248,7 @@ describe('print formatted text', () => {
   it('change codepage', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
-    const printer = await Printer.connectPrinter(model, connection);
+    const printer = await Printer.connect(model, connection);
     await printer.setCodepage('utf8');
     await printer.writeln('Açênts');
     expect(connection.buffer()).toStrictEqual(
@@ -265,7 +265,7 @@ describe('print formatted text', () => {
   it('unsupported codepage', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
-    const printer = await Printer.connectPrinter(model, connection);
+    const printer = await Printer.connect(model, connection);
     expect(printer.setCodepage('utf9')).rejects.toThrow();
   });
 
@@ -280,7 +280,7 @@ describe('print formatted text', () => {
     const withStyleSpy = jest
       .spyOn(model.profile, 'withStyle')
       .mockImplementation((_: StyleConf, cb: Function) => cb());
-    const printer = await Printer.connectPrinter(model, connection);
+    const printer = await Printer.connect(model, connection);
 
     const styleConf = {
       width: 4,

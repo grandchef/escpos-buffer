@@ -31,7 +31,7 @@ export enum Drawer {
 export default class Printer {
   private model: Model;
 
-  static async connectPrinter(
+  static async connect(
     model: Model,
     connection: Connection,
   ): Promise<Printer> {
