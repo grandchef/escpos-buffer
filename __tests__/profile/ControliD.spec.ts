@@ -13,7 +13,7 @@ describe('controlid model profile', () => {
   it('write text using Font B from model PrintiD', () => {
     const connection = new InMemory()
     const printer = new Printer(new Model('PrintiD'), connection)
-    printer.columns = 64
+    printer.setColumns = 64
     printer.writeln('Lorem Ipsum is simply dummy text of the printing and ' +
       'typesetting industry. Lorem Ipsum has been the industry\'s standard' +
       ' dummy text ever since the 1500s', Style.Bold, Align.Center)

@@ -18,7 +18,7 @@ describe('epson model profile', () => {
     const connection = new InMemory();
     const model = new Model('TM-T20');
     const printer = new Printer(model, connection);
-    printer.columns = 64;
+    printer.setColumns = 64;
     printer.writeln(
       'Large Text',
       Style.DoubleWidth + Style.DoubleHeight,

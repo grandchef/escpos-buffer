@@ -16,36 +16,41 @@ const cache = new Map<string, Capability>();
 export default class Model {
   private _profile: Profile;
 
-  constructor(model: string | Profile) {
-    if (typeof model === 'string') {
-      this._profile = this.instance(Model.EXPAND(Model.FIND(model)));
-    } else {
-      this._profile = model;
-    }
+  static async initialise(model: string) {
+    const profile = await Model.initialiseProfile(
+      Model.EXPAND(Model.FIND(model)),
+    );
+    return new Model(profile);
   }
 
-  instance(capability: Capability): Profile {
+  constructor(model: Profile) {
+    this._profile = model;
+  }
+
+  private static async initialiseProfile(
+    capability: Capability,
+  ): Promise<Profile> {
     switch (capability.profile) {
       case 'bematech':
-        return new Bematech(capability);
+        return Profile.initialise(Bematech, capability);
       case 'controlid':
-        return new ControliD(capability);
+        return Profile.initialise(ControliD, capability);
       case 'daruma':
-        return new Daruma(capability);
+        return Profile.initialise(Daruma, capability);
       case 'dataregis':
-        return new Dataregis(capability);
+        return Profile.initialise(Dataregis, capability);
       case 'diebold':
-        return new Diebold(capability);
+        return Profile.initialise(Diebold, capability);
       case 'elgin':
-        return new Elgin(capability);
+        return Profile.initialise(Elgin, capability);
       case 'generic':
-        return new Generic(capability);
+        return Profile.initialise(Generic, capability);
       case 'perto':
-        return new Perto(capability);
+        return Profile.initialise(Perto, capability);
       case 'sweda':
-        return new Sweda(capability);
+        return Profile.initialise(Sweda, capability);
       default:
-        return new Epson(capability);
+        return Profile.initialise(Epson, capability);
     }
   }
 

@@ -22,9 +22,17 @@ export abstract class Profile {
   private _connection: Connection;
   protected capabilities: Capability;
 
+  static async initialise(
+    Class: new (capability: Capability) => Profile,
+    capability: Capability,
+  ): Promise<Profile> {
+    const profile = new Class(capability);
+    await profile.setColumns(capability.columns);
+    return profile;
+  }
+
   constructor(capabilities: Capability) {
     this.capabilities = capabilities;
-    this.columns = this.defaultColumns;
     this.setCodepage(this.capabilities.codepage);
   }
 
@@ -76,7 +84,7 @@ export abstract class Profile {
     await this.setStyles(styles, true);
     await this.connection.write(iconv.encode(text, this._codepage.code));
     await this.setStyles(styles, false);
-    await this.setMode(styles, false);
+    return this.setMode(styles, false);
   }
 
   async withStyle(styleConf: StyleConf, cb: Function): Promise<void> {
@@ -165,22 +173,18 @@ export abstract class Profile {
     return this._columns;
   }
 
-  set columns(value: number) {
+  async setColumns(value: number) {
     const font = this.fonts.find(({ columns }: Font) => columns >= value);
-    this.font = font || this.fonts.slice(-1)[0];
+    await this.setFont(font || this.fonts.slice(-1)[0]);
     this._columns = this.font.columns >= value ? value : this.font.columns;
   }
 
-  get defaultColumns(): number {
-    return this.capabilities.columns;
-  }
-
-  set font(value: Font) {
+  async setFont(value: Font) {
     const old = this._font;
     this._font = value;
     if (old && old.name != value.name) {
-      this.fontChanged(value, old);
-      this.applyCodePage();
+      await this.fontChanged(value, old);
+      return this.applyCodePage();
     }
   }
 
@@ -210,7 +214,7 @@ export abstract class Profile {
     return this.connection.write(Buffer.from(this._codepage.command, 'ascii'));
   }
 
-  protected fontChanged(_: Font, __: Font) {}
+  protected async fontChanged(_: Font, __: Font) {}
 
   async initialize(): Promise<void> {
     if (this.capabilities.initialize) {

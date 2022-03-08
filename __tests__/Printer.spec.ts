@@ -225,14 +225,14 @@ describe('print formatted text', () => {
     const capability = Model.ALL().find(
       ({ model }: Capability) => model == 'MP-4200 TH',
     );
-    expect(printer.columns).toBe(capability.columns);
+    expect(printer.setColumns).toBe(capability.columns);
   });
 
   it('change columns', async () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
     const printer = await Printer.connectPrinter(model, connection);
-    printer.columns = 42;
+    printer.setColumns = 42;
     expect(model.profile.font.name).toBe('Font A');
   });
 
@@ -240,9 +240,9 @@ describe('print formatted text', () => {
     const connection = new InMemory();
     const model = new Model('MP-4200 TH');
     const printer = await Printer.connectPrinter(model, connection);
-    printer.columns = 62;
+    printer.setColumns = 62;
     expect(model.profile.font.name).toBe('Font B');
-    expect(printer.columns).toBe(56);
+    expect(printer.setColumns).toBe(56);
   });
 
   it('change codepage', async () => {

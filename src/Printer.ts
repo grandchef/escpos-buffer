@@ -107,8 +107,8 @@ export default class Printer {
     return this.model.profile.columns;
   }
 
-  set columns(value: number) {
-    this.model.profile.columns = value;
+  async setColumns(value: number) {
+    return this.model.profile.setColumns(value);
   }
 
   async close() {
