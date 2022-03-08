@@ -139,7 +139,7 @@ describe('elgin model profile', () => {
       await Model.initialise('VOX'),
       connection,
     );
-    printer.writeln('Bold text', Style.Bold, Align.Center);
+    await printer.writeln('Bold text', Style.Bold, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('vox_bold_text', connection.buffer()),
     );
@@ -151,7 +151,7 @@ describe('elgin model profile', () => {
       await Model.initialise('VOX'),
       connection,
     );
-    printer.writeln(
+    await printer.writeln(
       'Large Text',
       Style.DoubleWidth + Style.DoubleHeight,
       Align.Center,
