@@ -57,17 +57,17 @@ export default class Elgin extends Epson {
     }
     if (enable) {
       if (mode & Style.DoubleWidth) {
-        return this.connection.write(Buffer.from('\x1BW\x01', 'ascii'));
+        await this.connection.write(Buffer.from('\x1BW\x01', 'ascii'));
       }
       if (mode & Style.DoubleHeight) {
-        return this.connection.write(Buffer.from('\x1Bd\x01', 'ascii'));
+        await this.connection.write(Buffer.from('\x1Bd\x01', 'ascii'));
       }
     } else {
       if (mode & Style.DoubleHeight) {
-        return this.connection.write(Buffer.from('\x1Bd\x00', 'ascii'));
+        await this.connection.write(Buffer.from('\x1Bd\x00', 'ascii'));
       }
       if (mode & Style.DoubleWidth) {
-        return this.connection.write(Buffer.from('\x1BW\x00', 'ascii'));
+        await this.connection.write(Buffer.from('\x1BW\x00', 'ascii'));
       }
     }
   }
