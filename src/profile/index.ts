@@ -27,13 +27,13 @@ export abstract class Profile {
     capability: Capability,
   ): Promise<Profile> {
     const profile = new Class(capability);
+    await profile.setCodepage(capability.codepage);
     await profile.setColumns(capability.columns);
     return profile;
   }
 
   constructor(capabilities: Capability) {
     this.capabilities = capabilities;
-    this.setCodepage(this.capabilities.codepage);
   }
 
   abstract feed(lines: number): Promise<void>;
