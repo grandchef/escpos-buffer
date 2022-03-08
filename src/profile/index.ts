@@ -39,22 +39,26 @@ export abstract class Profile {
    * @param on_time time in milliseconds that activate the drawer
    * @param off_time time in milliseconds that deactivate the drawer
    */
-  abstract drawer(number: Drawer, on_time: number, off_time: number): void;
+  abstract drawer(
+    number: Drawer,
+    on_time: number,
+    off_time: number,
+  ): Promise<void>;
 
   abstract set alignment(align: Align);
 
   abstract qrcode(data: string, size: number): Promise<void>;
 
-  protected abstract setMode(mode: number, enable: boolean): void;
+  protected abstract setMode(mode: number, enable: boolean): Promise<void>;
 
-  protected abstract setStyle(style: Style, enable: boolean): void;
+  protected abstract setStyle(style: Style, enable: boolean): Promise<void>;
 
   protected abstract setCharSize(charSize: {
     width: number;
     height: number;
-  }): void;
+  }): Promise<void>;
 
-  protected setStyles(styles: number, enable: boolean) {
+  protected async setStyles(styles: number, enable: boolean): Promise<void> {
     let properties = [
       Style.Condensed,
       Style.Bold,
@@ -62,12 +66,12 @@ export abstract class Profile {
       Style.Underline,
     ];
     properties = enable ? properties : properties.reverse();
-    properties.forEach((style: Style) => {
-      this.setStyle(style & styles, enable);
-    });
+    for (const style of properties) {
+      await this.setStyle(style & styles, enable);
+    }
   }
 
-  write(text: string, styles: number) {
+  async write(text: string, styles: number): Promise<void> {
     this.setMode(styles, true);
     this.setStyles(styles, true);
     this.connection.write(iconv.encode(text, this._codepage.code));
@@ -75,7 +79,7 @@ export abstract class Profile {
     this.setMode(styles, false);
   }
 
-  withStyle(styleConf: StyleConf, cb: Function) {
+  async withStyle(styleConf: StyleConf, cb: Function): Promise<void> {
     const {
       width = undefined,
       height = undefined,
@@ -92,25 +96,25 @@ export abstract class Profile {
     if (align !== Align.Left) {
       this.alignment = align;
     }
-    this.setCharSize({ width, height });
-    this.setStyles(styles, true);
+    await this.setCharSize({ width, height });
+    await this.setStyles(styles, true);
     cb();
-    this.setStyles(styles, false);
-    this.setCharSize({ width: 1, height: 1 });
+    await this.setStyles(styles, false);
+    await this.setCharSize({ width: 1, height: 1 });
     if (align !== Align.Left) {
       this.alignment = Align.Left;
     }
   }
 
-  writeln(text: string, styles: number, align: Align) {
+  async writeln(text: string, styles: number, align: Align): Promise<void> {
     // apply other alignment
     if (align !== Align.Left) {
       this.alignment = align;
     }
     if (text.length > 0) {
-      this.write(text, styles);
+      await this.write(text, styles);
     }
-    this.feed(1);
+    await this.feed(1);
     // reset align to left
     if (align !== Align.Left) {
       this.alignment = Align.Left;
@@ -121,23 +125,25 @@ export abstract class Profile {
     return '\x1B*!';
   }
 
-  draw(image: Image) {
+  async draw(image: Image): Promise<void> {
     const low = String.fromCharCode(image.width & 0xff);
     const high = String.fromCharCode((image.width >> 8) & 0xff);
-    this.connection.write(Buffer.from('\x1B3\x10', 'ascii'));
+    await this.connection.write(Buffer.from('\x1B3\x10', 'ascii'));
     for (let y = 0; y < image.lines; y++) {
       const data = image.lineData(y);
-      this.connection.write(Buffer.from(this.bitmapCmd + low + high, 'ascii'));
-      this.connection.write(data);
-      this.connection.write(Buffer.from('\x1BJ\x00', 'ascii'));
+      await this.connection.write(
+        Buffer.from(this.bitmapCmd + low + high, 'ascii'),
+      );
+      await this.connection.write(data);
+      await this.connection.write(Buffer.from('\x1BJ\x00', 'ascii'));
     }
-    this.connection.write(Buffer.from('\x1B2', 'ascii'));
+    return this.connection.write(Buffer.from('\x1B2', 'ascii'));
   }
 
   protected async drawQrcode(data: string, size: number): Promise<void> {
     const buffer = await QRCode.toBuffer(data, { scale: size });
     const image = new Image(buffer, new Threshold());
-    this.draw(image);
+    return this.draw(image);
   }
 
   get connection(): Connection {
@@ -186,6 +192,7 @@ export abstract class Profile {
     return this.capabilities.fonts;
   }
 
+  // TODO: This setter calls async methods, but cannot be async itself as it is a setter. This needs to be addressed.
   set codepage(value: string) {
     const old = this._codepage;
     const codepage = this.capabilities.codepages.find(
@@ -200,20 +207,22 @@ export abstract class Profile {
     }
   }
 
-  protected applyCodePage() {
-    this.connection.write(Buffer.from(this._codepage.command, 'ascii'));
+  protected async applyCodePage(): Promise<void> {
+    return this.connection.write(Buffer.from(this._codepage.command, 'ascii'));
   }
 
   protected fontChanged(_: Font, __: Font) {}
 
-  initialize() {
+  async initialize(): Promise<void> {
     if (this.capabilities.initialize) {
-      this.connection.write(Buffer.from(this.capabilities.initialize, 'ascii'));
+      await this.connection.write(
+        Buffer.from(this.capabilities.initialize, 'ascii'),
+      );
     }
-    this.applyCodePage();
+    return this.applyCodePage();
   }
 
-  finalize() {
-    this.connection.close();
+  async finalize(): Promise<void> {
+    return this.connection.close();
   }
 }

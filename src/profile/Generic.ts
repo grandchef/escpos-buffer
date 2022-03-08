@@ -2,25 +2,25 @@ import Epson from './Epson';
 import { Style } from '../Printer';
 
 export default class Generic extends Epson {
-  protected setMode(mode: number, enable: boolean): void {
+  protected async setMode(mode: number, enable: boolean): Promise<void> {
     if (enable) {
       if (mode & Style.DoubleWidth) {
-        this.connection.write(Buffer.from('\x0E', 'ascii'));
+        return this.connection.write(Buffer.from('\x0E', 'ascii'));
       }
       if (mode & Style.DoubleHeight) {
-        this.connection.write(Buffer.from('\x1Bd1', 'ascii'));
+        return this.connection.write(Buffer.from('\x1Bd1', 'ascii'));
       }
     } else {
       if (mode & Style.DoubleHeight) {
-        this.connection.write(Buffer.from('\x1Bd0', 'ascii'));
+        return this.connection.write(Buffer.from('\x1Bd0', 'ascii'));
       }
       if (mode & Style.DoubleWidth) {
-        this.connection.write(Buffer.from('\x14', 'ascii'));
+        return this.connection.write(Buffer.from('\x14', 'ascii'));
       }
     }
   }
 
-  async qrcode(data: string, size: number) {
-    await this.drawQrcode(data, size);
+  async qrcode(data: string, size: number): Promise<void> {
+    return this.drawQrcode(data, size);
   }
 }

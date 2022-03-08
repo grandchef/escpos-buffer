@@ -3,18 +3,16 @@ import { Style } from '../Printer';
 import { Font } from '../capabilities';
 
 export default class ControliD extends Epson {
-  protected setStyle(style: Style, enable: boolean): void {
+  protected async setStyle(style: Style, enable: boolean): Promise<void> {
     if (enable) {
       // enable styles
       if (Style.Bold == style) {
-        this.connection.write(Buffer.from('\x1BE\x01', 'ascii'));
-        return;
+        return this.connection.write(Buffer.from('\x1BE\x01', 'ascii'));
       }
     } else {
       // disable styles
       if (Style.Bold == style) {
-        this.connection.write(Buffer.from('\x1BE\x00', 'ascii'));
-        return;
+        return this.connection.write(Buffer.from('\x1BE\x00', 'ascii'));
       }
     }
     return super.setStyle(style, enable);
@@ -23,23 +21,23 @@ export default class ControliD extends Epson {
   async qrcode(data: string, size: number) {
     // Print iD Touch qrcode works with epson commands
     if (this.capabilities.model == 'PrintiD-Touch') {
-      await super.qrcode(data, size);
+      return super.qrcode(data, size);
     } else {
-      await this.drawQrcode(data, size);
+      return this.drawQrcode(data, size);
     }
   }
 
-  initialize() {
-    super.initialize();
-    this.fontChanged(this.font, this.font);
+  async initialize() {
+    await super.initialize();
+    return this.fontChanged(this.font, this.font);
   }
 
-  protected fontChanged(current: Font, previows: Font) {
+  protected async fontChanged(current: Font, previows: Font) {
     if (current.name == 'Font C') {
-      this.connection.write(Buffer.from('\x1BM\x02', 'ascii'));
+      return this.connection.write(Buffer.from('\x1BM\x02', 'ascii'));
     } else {
       // Font A and B
-      super.fontChanged(current, previows);
+      return super.fontChanged(current, previows);
     }
   }
 }
