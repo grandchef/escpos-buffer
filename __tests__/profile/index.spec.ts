@@ -3,10 +3,10 @@ import { Capability } from '../../src/capabilities';
 import { Style, Align, Cut, Drawer } from '../../src';
 
 class MockProfile extends Profile {
-  get setAlignment() {
+  get Alignment() {
     return null;
   }
-  set setAlignment(_: number) {}
+  setAlignment: (_: number) => Promise<void> = jest.fn();
   feed: (lines: number) => Promise<void> = jest.fn();
   cutter: (mode: Cut) => Promise<void> = jest.fn();
   buzzer: () => Promise<void> = jest.fn();
@@ -47,7 +47,7 @@ const capability: Capability = {
 describe('Profile', () => {
   afterEach(() => jest.resetAllMocks());
   describe('withStyle', () => {
-    it('should apply font size and then unapply it after calling the callback', () => {
+    it('should apply font size and then unapply it after calling the callback', async () => {
       const profile = new MockProfile(capability);
       const styleConf = {
         width: 4,
@@ -55,14 +55,14 @@ describe('Profile', () => {
       };
       const cb = jest.fn();
 
-      profile.withStyle(styleConf, cb);
+      await profile.withStyle(styleConf, cb);
 
       expect(profile.setCharSize).toHaveBeenCalledWith({ ...styleConf });
       expect(cb).toHaveBeenCalledTimes(1);
       expect(profile.setCharSize).toHaveBeenCalledWith({ width: 1, height: 1 });
     });
 
-    it('should apply style and then unapply it after calling the callback', () => {
+    it('should apply style and then unapply it after calling the callback', async () => {
       const profile = new MockProfile(capability);
       const styleConf = {
         bold: true,
@@ -71,7 +71,7 @@ describe('Profile', () => {
       };
       const cb = jest.fn();
 
-      profile.withStyle(styleConf, cb);
+      await profile.withStyle(styleConf, cb);
 
       const expectedStyles = Style.Bold | Style.Italic | Style.Underline;
 
@@ -80,16 +80,16 @@ describe('Profile', () => {
       expect(profile.setStyles).toHaveBeenCalledWith(expectedStyles, false);
     });
 
-    it('should apply alignment and then unapply it after calling the callback', () => {
+    it('should apply alignment and then unapply it after calling the callback', async () => {
       const profile = new MockProfile(capability);
-      const alignmentSetter = jest.spyOn(profile, 'alignment', 'set');
+      const alignmentSetter = jest.spyOn(profile, 'setAlignment');
       const align = Align.Center;
       const styleConf = {
         align,
       };
       const cb = jest.fn();
 
-      profile.withStyle(styleConf, cb);
+      await profile.withStyle(styleConf, cb);
 
       expect(alignmentSetter).toHaveBeenCalledWith(align);
       expect(cb).toHaveBeenCalledTimes(1);
