@@ -7,7 +7,7 @@ import { load } from '../helper';
 describe('controlid model profile', () => {
   it('write bold text from model PrintiD', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('PrintiD', connection);
+    const printer = await Printer.CONNECT('PrintiD', connection);
     await printer.writeln('Bold text', Style.Bold, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('printid_bold_text', connection.buffer()),
@@ -16,7 +16,7 @@ describe('controlid model profile', () => {
 
   it('write text using Font B from model PrintiD', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('PrintiD', connection);
+    const printer = await Printer.CONNECT('PrintiD', connection);
     await printer.setColumns(64);
     await printer.writeln(
       'Lorem Ipsum is simply dummy text of the printing and ' +
@@ -32,7 +32,7 @@ describe('controlid model profile', () => {
 
   it('write text with double width and height from model PrintiD', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('PrintiD', connection);
+    const printer = await Printer.CONNECT('PrintiD', connection);
     await printer.writeln(
       'Large Text',
       Style.DoubleWidth + Style.DoubleHeight,
@@ -45,7 +45,7 @@ describe('controlid model profile', () => {
 
   it('draw qrcode from model PrintiD', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('PrintiD', connection);
+    const printer = await Printer.CONNECT('PrintiD', connection);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);
@@ -56,7 +56,7 @@ describe('controlid model profile', () => {
 
   it('draw qrcode from model PrintiD Touch', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('PrintiD-Touch', connection);
+    const printer = await Printer.CONNECT('PrintiD-Touch', connection);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);

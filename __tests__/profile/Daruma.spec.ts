@@ -8,7 +8,7 @@ import { Image } from '../../src';
 describe('daruma model profile', () => {
   it('write bold text from model DR800', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('DR800', connection);
+    const printer = await Printer.CONNECT('DR800', connection);
     await printer.writeln('Bold text', Style.Bold, Align.Center);
     expect(connection.buffer()).toStrictEqual(
       load('dr800_bold_text', connection.buffer()),
@@ -17,7 +17,7 @@ describe('daruma model profile', () => {
 
   it('write text with double width and height from model DR800', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('DR800', connection);
+    const printer = await Printer.CONNECT('DR800', connection);
     await printer.writeln(
       'Large Text',
       Style.DoubleWidth + Style.DoubleHeight,
@@ -30,7 +30,7 @@ describe('daruma model profile', () => {
 
   it('activate drawer from model DR800', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('DR800', connection);
+    const printer = await Printer.CONNECT('DR800', connection);
     await printer.drawer();
     expect(connection.buffer()).toStrictEqual(
       load('dr800_drawer', connection.buffer()),
@@ -39,7 +39,7 @@ describe('daruma model profile', () => {
 
   it('draw qrcode from model DR800', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('DR800', connection);
+    const printer = await Printer.CONNECT('DR800', connection);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);
@@ -50,7 +50,7 @@ describe('daruma model profile', () => {
 
   it('draw picture from buffer from model DR800', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('DR800', connection);
+    const printer = await Printer.CONNECT('DR800', connection);
     const image = new Image(load('sample.png'));
     await printer.setAlignment(Align.Center);
     await printer.draw(image);

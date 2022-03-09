@@ -27,14 +27,7 @@ npm install escpos-buffer
 ### Node
 
 ```js
-const {
-  Printer,
-  Style,
-  Align,
-  Drawer,
-  Model,
-  InMemory,
-} = require('escpos-buffer');
+const { Printer, Model, InMemory } = require('escpos-buffer');
 
 const model = new Model('MP-4200 TH');
 const connection = new InMemory();

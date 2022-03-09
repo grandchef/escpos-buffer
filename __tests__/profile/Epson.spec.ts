@@ -9,7 +9,7 @@ describe('epson model profile', () => {
   it('write text from model TM-T20', async () => {
     const connection = new InMemory();
     const model = 'TM-T20';
-    const printer = await Printer.connect(model, connection);
+    const printer = await Printer.CONNECT(model, connection);
     await printer.writeln('Large Text');
     expect(connection.buffer()).toStrictEqual(
       load('tm-t20_text', connection.buffer()),
@@ -19,7 +19,7 @@ describe('epson model profile', () => {
   it('write text with double width and height from model TM-T20', async () => {
     const connection = new InMemory();
     const model = new Model('TM-T20');
-    const printer = await Printer.connect(model, connection);
+    const printer = await Printer.CONNECT(model, connection);
     await printer.setColumns(64);
     await printer.writeln(
       'Large Text',
@@ -36,7 +36,7 @@ describe('epson model profile', () => {
 
   it('draw qrcode from model TM-T20', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('TM-T20', connection);
+    const printer = await Printer.CONNECT('TM-T20', connection);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);
@@ -47,7 +47,7 @@ describe('epson model profile', () => {
 
   it('sets char size from the style and clears it after', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('TM-T20', connection);
+    const printer = await Printer.CONNECT('TM-T20', connection);
     const cb = jest.fn();
     const width = 4;
     const height = 6;
@@ -63,7 +63,7 @@ describe('epson model profile', () => {
 
   it('defaults width to 1', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('TM-T20', connection);
+    const printer = await Printer.CONNECT('TM-T20', connection);
     const cb = jest.fn();
     const height = 6;
     await printer.withStyle({ height }, cb);
@@ -76,7 +76,7 @@ describe('epson model profile', () => {
 
   it('defaults height to 1', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('TM-T20', connection);
+    const printer = await Printer.CONNECT('TM-T20', connection);
     const cb = jest.fn();
     const width = 6;
     await printer.withStyle({ width }, cb);
@@ -89,7 +89,7 @@ describe('epson model profile', () => {
 
   it('caps max char size at 8', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('TM-T20', connection);
+    const printer = await Printer.CONNECT('TM-T20', connection);
     const cb = jest.fn();
     await printer.withStyle(
       {
@@ -108,7 +108,7 @@ describe('epson model profile', () => {
 
   it('caps min char size at 1', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect('TM-T20', connection);
+    const printer = await Printer.CONNECT('TM-T20', connection);
     const cb = jest.fn();
     await printer.withStyle(
       {

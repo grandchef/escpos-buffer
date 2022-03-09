@@ -83,7 +83,7 @@ export default class Printer {
     return this.model.profile.finalize();
   }
 
-  static async connect(
+  static async CONNECT(
     _model: SupportedModel | Model,
     connection: Connection,
   ): Promise<Printer> {
