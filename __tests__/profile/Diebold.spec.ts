@@ -1,4 +1,3 @@
-import Model from '../../src/Model';
 import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
 import { load } from '../helper';
@@ -6,10 +5,7 @@ import { load } from '../helper';
 describe('diebold model profile', () => {
   it('emit buzzer from model TSP-143', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect(
-      await Model.initialise('TSP-143'),
-      connection,
-    );
+    const printer = await Printer.connect('TSP-143', connection);
     await printer.buzzer();
     expect(connection.buffer()).toStrictEqual(
       load('tsp-143_buzzer', connection.buffer()),
@@ -18,10 +14,7 @@ describe('diebold model profile', () => {
 
   it('activate drawer from model TSP-143', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect(
-      await Model.initialise('TSP-143'),
-      connection,
-    );
+    const printer = await Printer.connect('TSP-143', connection);
     await printer.drawer();
     expect(connection.buffer()).toStrictEqual(
       load('tsp-143_drawer', connection.buffer()),

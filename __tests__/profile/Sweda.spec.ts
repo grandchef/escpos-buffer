@@ -1,4 +1,3 @@
-import Model from '../../src/Model';
 import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
 import { load } from '../helper';
@@ -6,10 +5,7 @@ import { load } from '../helper';
 describe('sweda model profile', () => {
   it('emit buzzer from model SI-300L', async () => {
     const connection = new InMemory();
-    const printer = await Printer.connect(
-      await Model.initialise('SI-300L'),
-      connection,
-    );
+    const printer = await Printer.connect('SI-300L', connection);
     printer.buzzer();
     expect(connection.buffer()).toStrictEqual(
       load('si-300l_buzzer', connection.buffer()),

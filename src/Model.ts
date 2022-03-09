@@ -16,10 +16,6 @@ const cache = new Map<string, Capability>();
 export default class Model {
   private _profile: Profile;
 
-  static initialise(model: SupportedModel) {
-    return new Model(model);
-  }
-
   constructor(model: Profile | SupportedModel) {
     if (typeof model === 'string') {
       this._profile = Model.initialiseProfile(Model.EXPAND(Model.FIND(model)));
