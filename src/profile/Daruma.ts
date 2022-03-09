@@ -1,7 +1,7 @@
 import Epson from './Epson';
-import {Align} from "../Align";
-import {Style} from "../Style";
-import {Drawer} from "../Drawer";
+import { Align } from '../Align';
+import { Style } from '../Style';
+import { Drawer } from '../Drawer';
 import { Font } from '../capabilities';
 
 export default class Daruma extends Epson {
@@ -60,6 +60,13 @@ export default class Daruma extends Epson {
   }
 
   async initialize() {
+    await this.setCodepage(this.capabilities.codepage);
+    await this.setColumns(this.capabilities.columns);
+    if (this.capabilities.initialize) {
+      await this.connection.write(
+        Buffer.from(this.capabilities.initialize, 'ascii'),
+      );
+    }
     return this.fontChanged(this.font, this.font);
   }
 

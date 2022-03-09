@@ -24,7 +24,6 @@ export default class Model {
     if (typeof model === 'string') {
       this._profile = Model.initialiseProfile(Model.EXPAND(Model.FIND(model)));
     } else {
-      console.log('theo-27671');
       this._profile = model;
     }
   }
