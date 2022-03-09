@@ -1,8 +1,8 @@
 export { default as InMemory } from './InMemory';
 export { default as WebUSB } from './WebUSB';
 
-export interface Connection<WriteResult = void> {
+export interface Connection {
   open(): Promise<void>;
-  write(data: Buffer): Promise<WriteResult>;
+  write(data: Buffer): Promise<void>;
   close(): Promise<void>;
 }

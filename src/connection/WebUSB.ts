@@ -1,6 +1,6 @@
 import { Connection } from '.';
 
-export default class WebUSB implements Connection<USBOutTransferResult> {
+export default class WebUSB implements Connection {
   private endpointNumber: number = 1;
 
   constructor(private device: USBDevice) {}
@@ -22,8 +22,8 @@ export default class WebUSB implements Connection<USBOutTransferResult> {
     this.endpointNumber = endpoint.endpointNumber;
   }
 
-  write(data: Buffer): Promise<USBOutTransferResult> {
-    return this.device.transferOut(this.endpointNumber, data);
+  async write(data: Buffer): Promise<void> {
+    await this.device.transferOut(this.endpointNumber, data);
   }
 
   close(): Promise<void> {
