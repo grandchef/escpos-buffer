@@ -1,4 +1,7 @@
-import { Align, Style, Drawer, Cut } from '../Printer';
+import {Align} from "../Align";
+import {Style} from "../Style";
+import {Cut} from "../Cut";
+import {Drawer} from "../Drawer";
 import { Profile } from '.';
 import { Font } from '../capabilities';
 

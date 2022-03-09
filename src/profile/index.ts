@@ -1,6 +1,9 @@
 import { Connection } from '../connection';
 import { Font, Capability, CodePage } from '../capabilities';
-import { Align, Drawer, Style, Cut } from '../Printer';
+import { Align } from '../Align';
+import { Style } from '../Style';
+import { Cut } from '../Cut';
+import { Drawer } from '../Drawer';
 import * as iconv from 'iconv-lite';
 import * as QRCode from 'qrcode';
 import Image from '../graphics/Image';
@@ -21,16 +24,6 @@ export abstract class Profile {
   private _font: Font;
   private _connection: Connection;
   protected capabilities: Capability;
-
-  static async initialise(
-    Class: new (capability: Capability) => Profile,
-    capability: Capability,
-  ): Promise<Profile> {
-    const profile = new Class(capability);
-    await profile.setCodepage(capability.codepage);
-    await profile.setColumns(capability.columns);
-    return profile;
-  }
 
   constructor(capabilities: Capability) {
     this.capabilities = capabilities;
@@ -217,6 +210,8 @@ export abstract class Profile {
   protected async fontChanged(_: Font, __: Font) {}
 
   async initialize(): Promise<void> {
+    await this.setCodepage(this.capabilities.codepage);
+    await this.setColumns(this.capabilities.columns);
     if (this.capabilities.initialize) {
       await this.connection.write(
         Buffer.from(this.capabilities.initialize, 'ascii'),

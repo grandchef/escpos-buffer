@@ -1,5 +1,5 @@
 import Elgin from './Elgin';
-import { Cut } from '../Printer';
+import {Cut} from "../Cut";
 
 export default class Perto extends Elgin {
   async buzzer(): Promise<void> {

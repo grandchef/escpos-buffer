@@ -1,6 +1,7 @@
 import Model from '../../src/Model';
 import InMemory from '../../src/connection/InMemory';
-import Printer, { Align } from '../../src/Printer';
+import Printer from '../../src/Printer';
+import {Align} from "../../src/Align";
 import { load } from '../helper';
 
 describe('perto model profile', () => {

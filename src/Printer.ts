@@ -2,48 +2,16 @@ import Model from './Model';
 import { Connection } from './connection';
 import Image from './graphics/Image';
 import { StyleConf } from './profile';
-
-export enum Align {
-  Left,
-  Center,
-  Right,
-}
-
-export enum Style {
-  Bold = 1,
-  Italic = 2,
-  Underline = 4,
-  Condensed = 8,
-  DoubleWidth = 16,
-  DoubleHeight = 32,
-}
-
-export enum Cut {
-  Full,
-  Partial,
-}
-
-export enum Drawer {
-  First,
-  Second,
-}
+import { Drawer } from './Drawer';
+import { Cut } from './Cut';
+import { Align } from './Align';
+import {SupportedModel} from './capabilities';
 
 export default class Printer {
   private model: Model;
 
-  static async connect(
-    model: Model,
-    connection: Connection,
-  ): Promise<Printer> {
-    await connection.open();
-    const printer = new Printer(model, connection);
-    await model.profile.initialize();
-    return printer;
-  }
-
-  constructor(model: Model, connection: Connection) {
+  constructor(model: Model) {
     this.model = model;
-    this.model.profile.connection = connection;
   }
 
   async setCodepage(value: string) {
@@ -113,5 +81,21 @@ export default class Printer {
 
   async close() {
     return this.model.profile.finalize();
+  }
+
+  static async connect(
+    _model: SupportedModel | Model,
+    connection: Connection,
+  ): Promise<Printer> {
+    let model: Model
+    if(typeof _model === 'string') {
+      model = new Model(_model)
+    } else {
+      model = _model
+    }
+    await connection.open();
+    model.profile.connection = connection;
+    await model.profile.initialize?.();
+    return new Printer(model);
   }
 }

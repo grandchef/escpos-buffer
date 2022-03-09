@@ -1,6 +1,9 @@
 import Model from '../../src/Model';
 import InMemory from '../../src/connection/InMemory';
-import Printer, { Align, Style, Cut } from '../../src/Printer';
+import Printer from '../../src/Printer';
+import {Align} from "../../src/Align";
+import {Style} from "../../src/Style";
+import {Cut} from "../../src/Cut";
 import { load } from '../helper';
 
 describe('elgin model profile', () => {

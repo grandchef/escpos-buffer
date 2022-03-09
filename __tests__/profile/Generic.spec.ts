@@ -1,6 +1,8 @@
 import Model from '../../src/Model';
 import InMemory from '../../src/connection/InMemory';
-import Printer, { Align, Style } from '../../src/Printer';
+import Printer from '../../src/Printer';
+import {Align} from "../../src/Align";
+import {Style} from "../../src/Style";
 import { load } from '../helper';
 
 describe('generic model profile', () => {

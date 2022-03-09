@@ -1,5 +1,5 @@
 import { Profile } from './profile';
-import capabilities, { Capability } from './capabilities';
+import capabilities, { Capability, SupportedModel } from './capabilities';
 import Bematech from './profile/Bematech';
 import Epson from './profile/Epson';
 import ControliD from './profile/ControliD';
@@ -16,41 +16,41 @@ const cache = new Map<string, Capability>();
 export default class Model {
   private _profile: Profile;
 
-  static async initialise(model: string) {
-    const profile = await Model.initialiseProfile(
-      Model.EXPAND(Model.FIND(model)),
-    );
-    return new Model(profile);
+  static initialise(model: SupportedModel) {
+    return new Model(model);
   }
 
-  constructor(model: Profile) {
-    this._profile = model;
+  constructor(model: Profile | SupportedModel) {
+    if (typeof model === 'string') {
+      this._profile = Model.initialiseProfile(Model.EXPAND(Model.FIND(model)));
+    } else {
+      console.log('theo-27671');
+      this._profile = model;
+    }
   }
 
-  private static async initialiseProfile(
-    capability: Capability,
-  ): Promise<Profile> {
+  private static initialiseProfile(capability: Capability): Profile {
     switch (capability.profile) {
       case 'bematech':
-        return Profile.initialise(Bematech, capability);
+        return new Bematech(capability);
       case 'controlid':
-        return Profile.initialise(ControliD, capability);
+        return new ControliD(capability);
       case 'daruma':
-        return Profile.initialise(Daruma, capability);
+        return new Daruma(capability);
       case 'dataregis':
-        return Profile.initialise(Dataregis, capability);
+        return new Dataregis(capability);
       case 'diebold':
-        return Profile.initialise(Diebold, capability);
+        return new Diebold(capability);
       case 'elgin':
-        return Profile.initialise(Elgin, capability);
+        return new Elgin(capability);
       case 'generic':
-        return Profile.initialise(Generic, capability);
+        return new Generic(capability);
       case 'perto':
-        return Profile.initialise(Perto, capability);
+        return new Perto(capability);
       case 'sweda':
-        return Profile.initialise(Sweda, capability);
+        return new Sweda(capability);
       default:
-        return Profile.initialise(Epson, capability);
+        return new Epson(capability);
     }
   }
 

@@ -1,80 +1,4 @@
-export type Font = {
-  /**
-   * Font name, ex: Font A, Font B
-   */
-  name: string;
-
-  /**
-   * Max columns to use in this font
-   */
-  columns: number;
-};
-
-export type CodePage = {
-  /**
-   * Code page, ex: cp850, utf8
-   */
-  code: string;
-
-  /**
-   * Command to use this code page
-   */
-  command: string;
-};
-
-export type Capability = {
-  /**
-   * Profile to process printer commands
-   */
-  profile: string;
-
-  /**
-   * Printer brand
-   */
-  brand: string;
-
-  /**
-   * Printer model reference
-   */
-  model: string;
-
-  /**
-   * Printer model name
-   */
-  name?: string;
-
-  /**
-   * Default columns number
-   */
-  columns: number;
-
-  /**
-   * Default feed rows to cut properly
-   */
-  feed?: number;
-
-  /**
-   * Available fonts
-   */
-  fonts: Font[];
-
-  /**
-   * Default code page
-   */
-  codepage: string;
-
-  /**
-   * Initialize printer with this command
-   */
-  initialize?: string;
-
-  /**
-   * Available code pages
-   */
-  codepages: CodePage[];
-};
-
-export default {
+const capabilities = {
   models: [
     // Bematech
     {
@@ -504,4 +428,86 @@ export default {
       },
     },
   },
+} as const;
+
+export type Font = {
+  /**
+   * Font name, ex: Font A, Font B
+   */
+  name: string;
+
+  /**
+   * Max columns to use in this font
+   */
+  columns: number;
 };
+
+export type CodePage = {
+  /**
+   * Code page, ex: cp850, utf8
+   */
+  code: string;
+
+  /**
+   * Command to use this code page
+   */
+  command: string;
+};
+
+type Models = (typeof capabilities)['models'];
+export type Profile = Models[number]['profile'];
+export type SupportedModel = Models[number]['model'];
+
+export type Capability = {
+  /**
+   * Profile to process printer commands
+   */
+  profile: string;
+
+  /**
+   * Printer brand
+   */
+  brand: string;
+
+  /**
+   * Printer model reference
+   */
+  model: string;
+
+  /**
+   * Printer model name
+   */
+  name?: string;
+
+  /**
+   * Default columns number
+   */
+  columns: number;
+
+  /**
+   * Default feed rows to cut properly
+   */
+  feed?: number;
+
+  /**
+   * Available fonts
+   */
+  fonts: Font[];
+
+  /**
+   * Default code page
+   */
+  codepage: string;
+
+  /**
+   * Initialize printer with this command
+   */
+  initialize?: string;
+
+  /**
+   * Available code pages
+   */
+  codepages: CodePage[];
+};
+
+export default capabilities;

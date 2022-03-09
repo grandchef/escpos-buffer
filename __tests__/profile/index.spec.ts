@@ -1,6 +1,9 @@
 import { Profile } from '../../src/profile';
 import { Capability } from '../../src/capabilities';
-import { Style, Align, Cut, Drawer } from '../../src';
+import {Align} from "../../src/Align";
+import {Style} from "../../src/Style";
+import {Cut} from "../../src/Cut";
+import {Drawer} from "../../src/Drawer";
 
 class MockProfile extends Profile {
   get Alignment() {

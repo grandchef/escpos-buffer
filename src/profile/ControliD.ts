@@ -1,5 +1,5 @@
 import Epson from './Epson';
-import { Style } from '../Printer';
+import {Style} from "../Style";
 import { Font } from '../capabilities';
 
 export default class ControliD extends Epson {
