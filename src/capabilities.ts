@@ -454,7 +454,7 @@ export type CodePage = {
   command: string;
 };
 
-type Models = (typeof capabilities)['models'];
+type Models = typeof capabilities['models'];
 export type Profile = Models[number]['profile'];
 export type SupportedModel = Models[number]['model'];
 

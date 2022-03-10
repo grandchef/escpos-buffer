@@ -5,7 +5,7 @@ import { StyleConf } from './profile';
 import { Drawer } from './Drawer';
 import { Cut } from './Cut';
 import { Align } from './Align';
-import {SupportedModel} from './capabilities';
+import { SupportedModel } from './capabilities';
 
 export default class Printer {
   private model: Model;
@@ -87,11 +87,11 @@ export default class Printer {
     _model: SupportedModel | Model,
     connection: Connection,
   ): Promise<Printer> {
-    let model: Model
-    if(typeof _model === 'string') {
-      model = new Model(_model)
+    let model: Model;
+    if (typeof _model === 'string') {
+      model = new Model(_model);
     } else {
-      model = _model
+      model = _model;
     }
     await connection.open();
     model.profile.connection = connection;
