@@ -1,7 +1,7 @@
 import Epson from './Epson';
-import {Style} from "../Style";
-import {Cut} from "../Cut";
-import {Drawer} from "../Drawer";
+import { Style } from '../Style';
+import { Cut } from '../Cut';
+import { Drawer } from '../Drawer';
 
 export default class Elgin extends Epson {
   async cutter(mode: Cut): Promise<void> {

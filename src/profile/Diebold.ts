@@ -1,5 +1,5 @@
 import Elgin from './Elgin';
-import {Drawer} from "../Drawer";
+import { Drawer } from '../Drawer';
 
 export default class Diebold extends Elgin {
   async buzzer(): Promise<void> {

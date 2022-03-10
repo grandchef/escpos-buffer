@@ -4,6 +4,5 @@ export enum Style {
   Underline = 4,
   Condensed = 8,
   DoubleWidth = 16,
-  DoubleHeight = 32
+  DoubleHeight = 32,
 }
-

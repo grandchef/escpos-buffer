@@ -1,5 +1,4 @@
 export enum Cut {
   Full,
-  Partial
+  Partial,
 }
-

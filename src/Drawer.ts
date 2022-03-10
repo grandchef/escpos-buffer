@@ -1,5 +1,4 @@
 export enum Drawer {
   First,
-  Second
+  Second,
 }
-
