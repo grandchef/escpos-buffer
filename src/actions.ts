@@ -9,7 +9,6 @@ export enum Cut {
   Partial,
 }
 
-
 export enum Drawer {
   First,
   Second,
