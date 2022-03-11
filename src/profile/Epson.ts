@@ -1,7 +1,4 @@
-import { Align } from '../Align';
-import { Style } from '../Style';
-import { Cut } from '../Cut';
-import { Drawer } from '../Drawer';
+import { Align, Style, Cut, Drawer } from '../actions';
 import { Profile } from '.';
 import { Font } from '../capabilities';
 

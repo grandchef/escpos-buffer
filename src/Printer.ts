@@ -2,9 +2,7 @@ import Model from './Model';
 import { Connection } from './connection';
 import Image from './graphics/Image';
 import { StyleConf } from './profile';
-import { Drawer } from './Drawer';
-import { Cut } from './Cut';
-import { Align } from './Align';
+import { Cut, Drawer, Align } from './actions';
 import { SupportedModel } from './capabilities';
 
 export default class Printer {

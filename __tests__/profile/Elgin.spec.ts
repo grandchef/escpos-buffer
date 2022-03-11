@@ -1,8 +1,6 @@
 import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
-import { Align } from '../../src/Align';
-import { Style } from '../../src/Style';
-import { Cut } from '../../src/Cut';
+import { Align, Style, Cut } from '../../src/actions';
 import { load } from '../helper';
 
 describe('elgin model profile', () => {

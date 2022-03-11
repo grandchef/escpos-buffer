@@ -1,3 +1,4 @@
+export * from './actions';
 export * from './connection';
 export { default as Model } from './Model';
 export { default as Image } from './graphics/Image';

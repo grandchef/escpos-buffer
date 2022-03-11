@@ -1,5 +1,5 @@
 import Epson from './Epson';
-import { Style } from '../Style';
+import { Style } from '../actions';
 
 export default class Generic extends Epson {
   protected async setMode(mode: number, enable: boolean): Promise<void> {

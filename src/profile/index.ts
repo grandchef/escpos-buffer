@@ -1,9 +1,6 @@
 import { Connection } from '../connection';
 import { Font, Capability, CodePage } from '../capabilities';
-import { Align } from '../Align';
-import { Style } from '../Style';
-import { Cut } from '../Cut';
-import { Drawer } from '../Drawer';
+import { Align, Style, Cut, Drawer } from '../actions';
 import * as iconv from 'iconv-lite';
 import * as QRCode from 'qrcode';
 import Image from '../graphics/Image';

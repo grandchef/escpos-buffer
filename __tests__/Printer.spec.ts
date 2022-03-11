@@ -4,9 +4,8 @@ import { Capability } from '../src/capabilities';
 import InMemory from '../src/connection/InMemory';
 import Model from '../src/Model';
 import Printer from '../src/Printer';
-import { Align } from '../src/Align';
-import { Style } from '../src/Style';
-import { StyleConf, Profile } from '../src/profile';
+import { Align, Style } from '../src/actions';
+import { StyleConf } from '../src/profile';
 import Elgin from '../src/profile/Elgin';
 import { load } from './helper';
 

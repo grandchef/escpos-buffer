@@ -1,6 +1,5 @@
 import Epson from './Epson';
-import { Style } from '../Style';
-import { Drawer } from '../Drawer';
+import { Style, Drawer } from '../actions';
 import { Font } from '../capabilities';
 
 export default class Bematech extends Epson {

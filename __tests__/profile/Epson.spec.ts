@@ -1,8 +1,7 @@
 import Model from '../../src/Model';
 import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
-import { Align } from '../../src/Align';
-import { Style } from '../../src/Style';
+import { Align, Style } from '../../src/actions';
 import { load } from '../helper';
 
 describe('epson model profile', () => {
