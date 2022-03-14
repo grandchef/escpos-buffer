@@ -30,7 +30,7 @@ npm install escpos-buffer
 const { Printer, InMemory } = require('escpos-buffer');
 
 const connection = new InMemory();
-const printer = new Printer('MP-4200 TH', connection);
+const printer = await Printer.CONNECT('MP-4200 TH', connection);
 ```
 
 ### Browser
@@ -48,14 +48,14 @@ const device = await navigator.usb.requestDevice({
   ],
 });
 const connection = new WebUSB(device);
-const printer = await Printer.connect('TM-T20', connection);
+const printer = await Printer.CONNECT('TM-T20', connection);
 ```
 
 ## Usage
 
 ```js
 // Following setup above...
-await printer.columns = 56
+await printer.setColumns(56)
 await printer.write('Simple Text *** ')
 await printer.writeln('Bold Text -> complete line text.[]123456', Style.Bold)
 await printer.writeln('Double height', Style.DoubleHeight | Style.Bold, Align.Center)
@@ -76,13 +76,19 @@ await printer.feed(6)
 await printer.buzzer()
 await printer.cutter()
 await printer.drawer(Drawer.First)
+
+// For buffered connection (output to stdout)
 process.stdout.write(connection.buffer())
 
 // to print, run command bellow on terminal
-//> node examples/basic.js | lp -d MyCupsPrinterName
-```
 
-## Usage in the browser
+// For Unix
+//> node examples/basic.js | lp -d MyCupsPrinterName
+
+// For Windows
+//> node examples\basic.js > output.bin
+//> print /d:\\%COMPUTERNAME%\PRINTER_NAME output.bin
+```
 
 ## Available scripts
 
