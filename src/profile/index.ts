@@ -96,7 +96,7 @@ export abstract class Profile {
     }
     await this.setCharSize({ width, height });
     await this.setStyles(styles, true);
-    cb();
+    await cb();
     await this.setStyles(styles, false);
     await this.setCharSize({ width: 1, height: 1 });
     if (align !== Align.Left) {
