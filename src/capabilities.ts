@@ -427,9 +427,7 @@ export default {
       brand: 'Diebold',
       profile: 'daruma',
       codepages: {
-        cp1252: '\x1Bt\x01',
-        cp850: '\x1Bt\x02',
-        cp437: '\x1Bt\x03',
+        cp1252: '',
       },
     },
     controlid: {

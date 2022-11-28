@@ -1,7 +1,16 @@
 import Elgin from './Elgin';
-import { Drawer } from '../Printer';
+import { Cut, Drawer } from '../Printer';
+import { Font } from '../capabilities';
 
 export default class Diebold extends Elgin {
+  initialize() {}
+
+  protected fontChanged(_: Font, __: Font) {}
+
+  cutter(_: Cut): void {
+    this.connection.write(Buffer.from('\x1Bw', 'ascii'));
+  }
+
   buzzer(): void {
     this.connection.write(Buffer.from('\x07', 'ascii'));
   }
