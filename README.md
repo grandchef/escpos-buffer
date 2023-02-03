@@ -67,9 +67,9 @@ await printer.withStyle({
   italic: true,
   underline: true,
   align: Align.Center,
-  }, () => {
-    printer.writeln('You can apply multiple styles at once using withStyle()')
-    printer.writeln('Font sizes 1-8 are available')
+  }, async () => {
+    await printer.writeln('You can apply multiple styles at once using withStyle()')
+    await printer.writeln('Font sizes 1-8 are available')
 })
 await printer.writeln('Default style is restored afterwards')
 await printer.feed(6)
