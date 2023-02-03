@@ -12,7 +12,7 @@ export default class WebUSB implements Connection {
   async open(): Promise<void> {
     await this.device.open();
     if (this.configurationValue === -1 || this.interfaceNumber === -1) {
-      this.delect();
+      this.autoSelect();
     }
     await this.device.selectConfiguration(this.configurationValue);
     await this.device.claimInterface(this.interfaceNumber);
@@ -31,7 +31,7 @@ export default class WebUSB implements Connection {
     return this.device.close();
   }
 
-  delect() {
+  autoSelect() {
     // select first configuration with interface having out direction
     this.device.configurations.find((config: USBConfiguration) => {
       if (
