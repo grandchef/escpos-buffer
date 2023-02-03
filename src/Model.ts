@@ -70,7 +70,7 @@ export default class Model {
     return profile;
   }
 
-  static EXPAND(profile: object): Capability {
+  static EXPAND(profile: any): Capability {
     const capability = {
       model: undefined,
       profile: undefined,

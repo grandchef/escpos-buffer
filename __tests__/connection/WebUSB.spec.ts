@@ -1,4 +1,4 @@
-import WebUSB from '../../src/connection/WebUSB';
+import { WebUSB } from '../../src/connection';
 
 const OUT_ENDPOINT_NUMBER = 2;
 

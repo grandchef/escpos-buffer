@@ -1,4 +1,4 @@
-import InMemory from '../../src/connection/InMemory';
+import { InMemory } from '../../src/connection';
 import Printer from '../../src/Printer';
 import { Align, Style } from '../../src/actions';
 import { load } from '../helper';
