@@ -93,7 +93,7 @@ export default class Printer {
     }
     await connection.open();
     model.profile.connection = connection;
-    await model.profile.initialize?.();
+    await model.profile.initialize();
     return new Printer(model);
   }
 }

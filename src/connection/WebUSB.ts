@@ -1,21 +1,22 @@
 import { Connection } from '.';
 
 export default class WebUSB implements Connection {
-  private endpointNumber: number = 1;
+  private endpointNumber: number = -1;
 
-  constructor(private device: USBDevice) {}
+  constructor(
+    private device: USBDevice,
+    private configurationValue: number = -1,
+    private interfaceNumber: number = -1,
+  ) {}
 
-  async open({
-    configuration = 1,
-    interface: interfaceNumber = 0,
-  }: {
-    configuration?: number;
-    interface?: number;
-  } = {}): Promise<void> {
+  async open(): Promise<void> {
     await this.device.open();
-    await this.device.selectConfiguration(configuration);
-    await this.device.claimInterface(interfaceNumber);
-    const iface = this.device.configuration.interfaces[interfaceNumber];
+    if (this.configurationValue === -1 || this.interfaceNumber === -1) {
+      this.delect();
+    }
+    await this.device.selectConfiguration(this.configurationValue);
+    await this.device.claimInterface(this.interfaceNumber);
+    const iface = this.device.configuration.interfaces[this.interfaceNumber];
     const endpoint = iface.alternate.endpoints.find(
       (e: USBEndpoint) => e.direction === 'out',
     );
@@ -28,5 +29,37 @@ export default class WebUSB implements Connection {
 
   close(): Promise<void> {
     return this.device.close();
+  }
+
+  delect() {
+    // select first configuration with interface having out direction
+    this.device.configurations.find((config: USBConfiguration) => {
+      if (
+        this.configurationValue !== -1 &&
+        config.configurationValue !== this.configurationValue
+      ) {
+        return false;
+      }
+      // select first interface having out direction
+      return (
+        config.interfaces.findIndex((iface: USBInterface) => {
+          if (
+            this.interfaceNumber !== -1 &&
+            iface.interfaceNumber !== this.interfaceNumber
+          ) {
+            return false;
+          }
+          const endpoint = iface.alternate.endpoints.find(
+            (e: USBEndpoint) => e.direction === 'out',
+          );
+          if (!endpoint) {
+            return false;
+          }
+          this.configurationValue = config.configurationValue;
+          this.interfaceNumber = iface.interfaceNumber;
+          return true;
+        }) >= 0
+      );
+    });
   }
 }

@@ -3,28 +3,54 @@ import WebUSB from '../../src/connection/WebUSB';
 const OUT_ENDPOINT_NUMBER = 2;
 
 describe('WebUSB', () => {
+  const unwantedConfiguration = {
+    configurationValue: 1,
+    interfaces: [
+      {
+        interfaceNumber: 0,
+        alternate: {
+          endpoints: [
+            { direction: 'in', endpointNumber: 1 },
+          ],
+        },
+      },
+      {
+        interfaceNumber: 1,
+        alternate: {
+          endpoints: [
+            { direction: 'in', endpointNumber: 1 },
+            { direction: 'in', endpointNumber: 2 },
+          ],
+        },
+      },
+    ],
+  }
+  const configuration = {
+    configurationValue: 2,
+    interfaces: [
+      {
+        interfaceNumber: 0,
+        alternate: {
+          endpoints: [
+            { direction: 'in', endpointNumber: 1 },
+            { direction: 'in', endpointNumber: 2 },
+          ],
+        },
+      },
+      {
+        interfaceNumber: 1,
+        alternate: {
+          endpoints: [
+            { direction: 'in', endpointNumber: 1 },
+            { direction: 'out', endpointNumber: OUT_ENDPOINT_NUMBER },
+          ],
+        },
+      },
+    ],
+  }
   const device = ({
-    configuration: {
-      interfaces: [
-        {
-          alternate: {
-            endpoints: [
-              { direction: 'in', endpointNumber: 1 },
-              { direction: 'out', endpointNumber: OUT_ENDPOINT_NUMBER },
-            ],
-          },
-        },
-        {
-          alternate: {
-            endpoints: [
-              { direction: 'in', endpointNumber: 1 },
-              { direction: 'in', endpointNumber: 2 },
-              { direction: 'out', endpointNumber: 3 },
-            ],
-          },
-        },
-      ],
-    },
+    configuration,
+    configurations: [unwantedConfiguration, configuration],
     open: jest.fn().mockReturnValue(Promise.resolve()),
     selectConfiguration: jest.fn().mockReturnValue(Promise.resolve()),
     claimInterface: jest.fn().mockReturnValue(Promise.resolve()),
@@ -38,8 +64,8 @@ describe('WebUSB', () => {
     const webUsb = new WebUSB(device);
     await webUsb.open();
     expect(device.open).toHaveBeenCalledTimes(1);
-    expect(device.selectConfiguration).toHaveBeenCalledWith(1);
-    expect(device.claimInterface).toHaveBeenCalledWith(0);
+    expect(device.selectConfiguration).toHaveBeenCalledWith(2);
+    expect(device.claimInterface).toHaveBeenCalledWith(1);
   });
 
   it('writes data', async () => {
@@ -53,12 +79,29 @@ describe('WebUSB', () => {
     );
   });
 
-  it('allows override of configuration and interface', async () => {
-    const webUsb = new WebUSB(device);
+  it('allows override of configuration', async () => {
     const configuration = 2;
     const interfaceNumber = 1;
-    await webUsb.open({ configuration, interface: interfaceNumber });
-    expect(device.open).toHaveBeenCalledTimes(1);
+    const webUsb = new WebUSB(device, configuration);
+    await webUsb.open();
+    expect(device.selectConfiguration).toHaveBeenCalledWith(configuration);
+    expect(device.claimInterface).toHaveBeenCalledWith(interfaceNumber);
+  });
+
+  it('allows override of interface', async () => {
+    const configuration = 2;
+    const interfaceNumber = 1;
+    const webUsb = new WebUSB(device, -1, interfaceNumber);
+    await webUsb.open();
+    expect(device.selectConfiguration).toHaveBeenCalledWith(configuration);
+    expect(device.claimInterface).toHaveBeenCalledWith(interfaceNumber);
+  });
+
+  it('allows override of configuration and interface', async () => {
+    const configuration = 2;
+    const interfaceNumber = 1;
+    const webUsb = new WebUSB(device, configuration, interfaceNumber);
+    await webUsb.open();
     expect(device.selectConfiguration).toHaveBeenCalledWith(configuration);
     expect(device.claimInterface).toHaveBeenCalledWith(interfaceNumber);
   });

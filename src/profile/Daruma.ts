@@ -60,11 +60,6 @@ export default class Daruma extends Epson {
   async initialize() {
     await this.setCodepage(this.capabilities.codepage);
     await this.setColumns(this.capabilities.columns);
-    if (this.capabilities.initialize) {
-      await this.connection.write(
-        Buffer.from(this.capabilities.initialize, 'ascii'),
-      );
-    }
     return this.fontChanged(this.font, this.font);
   }
 

@@ -1,6 +1,6 @@
 import { load } from '../helper';
 import { Image } from '../../src';
-import { PNG } from 'pngjs';
+import { PNG } from '../../src';
 
 describe('proccess images to printing format', () => {
   it('load image from buffer', () => {
@@ -21,7 +21,7 @@ describe('proccess images to printing format', () => {
     const png = await new Promise((resolve: Function, reject: Function) => {
       new PNG({ filterType: 4 }).parse(
         imageBuffer,
-        (error: Error, data: Buffer) => {
+        (error: Error, data: PNG) => {
           if (error) {
             reject(error);
             return;
@@ -31,7 +31,7 @@ describe('proccess images to printing format', () => {
       );
     });
 
-    const image = new Image(png);
+    const image = new Image(png as PNG);
     expect(image.width).toBe(180);
   });
 });

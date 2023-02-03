@@ -3,7 +3,7 @@ import { Image } from '../src';
 import { Capability } from '../src/capabilities';
 import InMemory from '../src/connection/InMemory';
 import Model from '../src/Model';
-import Printer from '../src/Printer';
+import { Printer } from '../src';
 import { Align, Style } from '../src/actions';
 import { StyleConf } from '../src/profile';
 import Elgin from '../src/profile/Elgin';
