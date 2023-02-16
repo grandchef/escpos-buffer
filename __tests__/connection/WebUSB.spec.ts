@@ -4,27 +4,45 @@ const OUT_ENDPOINT_NUMBER = 2;
 
 describe('WebUSB', () => {
   const unwantedConfiguration = {
+    configurationName: null,
     configurationValue: 1,
     interfaces: [
       {
-        interfaceNumber: 0,
         alternate: {
           endpoints: [
-            { direction: 'in', endpointNumber: 1 },
+            {
+              direction: 'in',
+              endpointNumber: 3,
+              packetSize: 64,
+              type: 'interrupt',
+            },
           ],
         },
+        claimed: false,
+        interfaceNumber: 0,
       },
       {
-        interfaceNumber: 1,
         alternate: {
           endpoints: [
-            { direction: 'in', endpointNumber: 1 },
-            { direction: 'in', endpointNumber: 2 },
+            {
+              direction: 'out',
+              endpointNumber: 1,
+              packetSize: 64,
+              type: 'bulk',
+            },
+            {
+              direction: 'in',
+              endpointNumber: 2,
+              packetSize: 64,
+              type: 'bulk',
+            },
           ],
         },
+        claimed: false,
+        interfaceNumber: 1,
       },
     ],
-  }
+  };
   const configuration = {
     configurationValue: 2,
     interfaces: [
