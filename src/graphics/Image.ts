@@ -1,6 +1,10 @@
 import { Filter, FloydSteinberg } from './filter';
-import * as fs from 'fs';
-import { PNG } from 'pngjs';
+
+export interface ImageData {
+  readonly data: Buffer;
+  readonly height: number;
+  readonly width: number;
+}
 
 export default class Image {
   data: Buffer;
@@ -8,37 +12,14 @@ export default class Image {
   width: number;
   bytesPerRow: number;
 
-  constructor(
-    input: string | Buffer | PNG = null,
-    filter: Filter = new FloydSteinberg(),
-  ) {
-    if (input instanceof PNG) {
-      this.readImage(filter.process(input));
-    } else if (typeof input === 'string') {
-      this.loadImage(input, filter);
-    } else if (input) {
-      this.loadImageData(input, filter);
-    }
-  }
-
-  loadImage(filename: string, filter: Filter): void {
-    // tslint:disable-next-line: non-literal-fs-path
-    const data = fs.readFileSync(filename);
-    this.loadImageData(data, filter);
-  }
-
-  loadImageData(data: Buffer, filter: Filter): void {
-    const png = PNG.sync.read(data);
-    const image = filter.process(png);
-    this.readImage(image);
+  constructor(imageData: ImageData, filter: Filter = new FloydSteinberg()) {
+    this.readImage(filter.process(imageData));
   }
 
   /**
-   * Load actual image pixels from PNG image.
-   *
-   * @param image PNG image
+   * Load actual image pixels from image data.
    */
-  private readImage(image: PNG): void {
+  private readImage(image: ImageData): void {
     const width = image.width;
     const img_height = image.height;
     const bits = 24;

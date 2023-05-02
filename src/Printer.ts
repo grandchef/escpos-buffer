@@ -1,9 +1,10 @@
 import Model from './Model';
 import { Connection } from './connection';
-import Image from './graphics/Image';
 import { StyleConf } from './profile';
 import { Cut, Drawer, Align } from './actions';
 import { SupportedModel } from './capabilities';
+import Image from './graphics/Image';
+import Manager from './graphics/Manager';
 
 export default class Printer {
   private model: Model;
@@ -84,6 +85,7 @@ export default class Printer {
   static async CONNECT(
     _model: SupportedModel | Model,
     connection: Connection,
+    imageManager?: Manager,
   ): Promise<Printer> {
     let model: Model;
     if (typeof _model === 'string') {
@@ -93,6 +95,7 @@ export default class Printer {
     }
     await connection.open();
     model.profile.connection = connection;
+    model.profile.imageManager = imageManager;
     await model.profile.initialize();
     return new Printer(model);
   }

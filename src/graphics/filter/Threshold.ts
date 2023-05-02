@@ -1,8 +1,8 @@
 import { Filter } from '.';
-import { PNG } from 'pngjs';
+import { ImageData } from '../Image';
 
 export default class Threshold implements Filter {
-  process(image: PNG): PNG {
+  process(image: ImageData): ImageData {
     const width = image.width;
     const height = image.height;
     const new_data = image.data.slice();
@@ -20,7 +20,6 @@ export default class Threshold implements Filter {
         new_data[y * width * 4 + x * 4 + 3] = alpha; // alpha
       }
     }
-    image.data = new_data;
-    return image;
+    return { width, height, data: new_data };
   }
 }
