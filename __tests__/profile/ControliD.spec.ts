@@ -2,6 +2,7 @@ import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
 import { Align, Style } from '../../src/actions';
 import { load } from '../helper';
+import { ImageManager } from 'escpos-buffer-image';
 
 describe('controlid model profile', () => {
   it('write bold text from model PrintiD', async () => {
@@ -44,7 +45,8 @@ describe('controlid model profile', () => {
 
   it('draw qrcode from model PrintiD', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('PrintiD', connection);
+    const imageManager = new ImageManager();
+    const printer = await Printer.CONNECT('PrintiD', connection, imageManager);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);
@@ -55,7 +57,12 @@ describe('controlid model profile', () => {
 
   it('draw qrcode from model PrintiD Touch', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('PrintiD-Touch', connection);
+    const imageManager = new ImageManager();
+    const printer = await Printer.CONNECT(
+      'PrintiD-Touch',
+      connection,
+      imageManager,
+    );
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);

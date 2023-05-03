@@ -1,3 +1,5 @@
+import * as path from 'path';
+import { ImageManager } from 'escpos-buffer-image';
 import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
 import { Align, Style } from '../../src/actions';
@@ -49,8 +51,12 @@ describe('daruma model profile', () => {
 
   it('draw picture from buffer from model DR800', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('DR800', connection);
-    const image = new Image(load('sample.png'));
+    const imageManager = new ImageManager();
+    const printer = await Printer.CONNECT('DR800', connection, imageManager);
+    const imageData = await imageManager.loadImage(
+      path.join(__dirname, '../resources/sample.png'),
+    );
+    const image = new Image(imageData);
     await printer.setAlignment(Align.Center);
     await printer.draw(image);
     await printer.setAlignment(Align.Left);
