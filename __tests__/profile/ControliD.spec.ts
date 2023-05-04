@@ -43,6 +43,14 @@ describe('controlid model profile', () => {
     );
   });
 
+  it('draw qrcode from model PrintiD without a image manager', async () => {
+    const connection = new InMemory();
+    const printer = await Printer.CONNECT('PrintiD', connection);
+    await expect(
+      printer.qrcode('https://github.com/grandchef/escpos-buffer'),
+    ).rejects.toThrow('No image manager to draw qrcode');
+  });
+
   it('draw qrcode from model PrintiD', async () => {
     const connection = new InMemory();
     const imageManager = new ImageManager();
