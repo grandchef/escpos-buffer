@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as fs from 'fs';
+import { ImageManager } from 'escpos-buffer-image';
 import { Image } from '../src';
 import { Capability } from '../src/capabilities';
 import InMemory from '../src/connection/InMemory';
@@ -127,8 +129,16 @@ describe('print formatted text', () => {
 
   it('draw picture from file', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('MP-4200 TH', connection);
-    const image = new Image(path.join(__dirname, 'resources/sample.png'));
+    const imageManager = new ImageManager();
+    const printer = await Printer.CONNECT(
+      'MP-4200 TH',
+      connection,
+      imageManager,
+    );
+    const imageData = await imageManager.loadImage(
+      path.join(__dirname, 'resources/sample.png'),
+    );
+    const image = new Image(imageData);
     await printer.setAlignment(Align.Center);
     await printer.draw(image);
     await printer.setAlignment(Align.Left);
@@ -139,8 +149,18 @@ describe('print formatted text', () => {
 
   it('draw picture from buffer', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('MP-4200 TH', connection);
-    const image = new Image(load('sample.png'));
+    const imageManager = new ImageManager();
+    const printer = await Printer.CONNECT(
+      'MP-4200 TH',
+      connection,
+      imageManager,
+    );
+    // tslint:disable: non-literal-fs-path
+    const imageBuffer = fs.readFileSync(
+      path.join(__dirname, 'resources/sample.png'),
+    );
+    const imageData = await imageManager.loadImageFromBuffer(imageBuffer);
+    const image = new Image(imageData);
     await printer.setAlignment(Align.Center);
     await printer.draw(image);
     await printer.setAlignment(Align.Left);

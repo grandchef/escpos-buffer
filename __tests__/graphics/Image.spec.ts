@@ -1,37 +1,29 @@
-import { load } from '../helper';
+import * as path from 'path';
+import { ImageManager } from 'escpos-buffer-image';
+
 import { Image } from '../../src';
-import { PNG } from '../../src';
 
 describe('proccess images to printing format', () => {
-  it('load image from buffer', () => {
-    const image = new Image(load('sample.png'));
+  it('load image from buffer', async () => {
+    const imageManager = new ImageManager();
+    const imageData = await imageManager.loadImage(
+      path.join(__dirname, '../resources/sample.png'),
+    );
+    const image = new Image(imageData);
     expect(image.width).toBe(180);
   });
 
-  it('allow image cache', () => {
-    const cache = new Image(load('sample.png'));
-    const image = new Image();
+  it('allow image cache', async () => {
+    const imageManager = new ImageManager();
+    const imageDataCache = await imageManager.loadImage(
+      path.join(__dirname, '../resources/sample.png'),
+    );
+    const imageData = await imageManager.loadImage(
+      path.join(__dirname, '../resources/transparent_sample.png'),
+    );
+    const cache = new Image(imageDataCache);
+    const image = new Image(imageData);
     Object.assign(image, cache);
-    expect(image.width).toBe(180);
-  });
-
-  it('accepts a pre-loaded PNG instance', async () => {
-    const imageBuffer = load('sample.png');
-
-    const png = await new Promise((resolve: Function, reject: Function) => {
-      new PNG({ filterType: 4 }).parse(
-        imageBuffer,
-        (error: Error, data: PNG) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve(data);
-        },
-      );
-    });
-
-    const image = new Image(png as PNG);
     expect(image.width).toBe(180);
   });
 });

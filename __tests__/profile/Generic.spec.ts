@@ -2,6 +2,7 @@ import InMemory from '../../src/connection/InMemory';
 import Printer from '../../src/Printer';
 import { Align, Style } from '../../src/actions';
 import { load } from '../helper';
+import { ImageManager } from 'escpos-buffer-image';
 
 describe('generic model profile', () => {
   it('write line text from model CMP-20', async () => {
@@ -39,9 +40,18 @@ describe('generic model profile', () => {
     );
   });
 
-  it('draw qrcode from model CMP-20', async () => {
+  it('draw qrcode from model CMP-20 without a image manager', async () => {
     const connection = new InMemory();
     const printer = await Printer.CONNECT('CMP-20', connection);
+    await expect(
+      printer.qrcode('https://github.com/grandchef/escpos-buffer'),
+    ).rejects.toThrow('No image manager to draw qrcode');
+  });
+
+  it('draw qrcode from model CMP-20', async () => {
+    const connection = new InMemory();
+    const imageManager = new ImageManager();
+    const printer = await Printer.CONNECT('CMP-20', connection, imageManager);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);

@@ -2,9 +2,9 @@ import { Connection } from '../connection';
 import { Font, Capability, CodePage } from '../capabilities';
 import { Align, Style, Cut, Drawer } from '../actions';
 import * as iconv from 'iconv-lite';
-import * as QRCode from 'qrcode';
 import Image from '../graphics/Image';
 import { Threshold } from '../graphics/filter';
+import Manager from '../graphics/Manager';
 
 export type StyleConf = {
   width?: number;
@@ -21,6 +21,7 @@ export abstract class Profile {
   private _font: Font;
   private _connection: Connection;
   protected capabilities: Capability;
+  public imageManager?: Manager;
 
   constructor(capabilities: Capability) {
     this.capabilities = capabilities;
@@ -139,8 +140,11 @@ export abstract class Profile {
   }
 
   protected async drawQrcode(data: string, size: number): Promise<void> {
-    const buffer = await QRCode.toBuffer(data, { scale: size });
-    const image = new Image(buffer, new Threshold());
+    if (!this.imageManager) {
+      throw new Error('No image manager to draw qrcode');
+    }
+    const imageData = await this.imageManager.buildQrcodeImage(data, size);
+    const image = new Image(imageData, new Threshold());
     return this.draw(image);
   }
 
