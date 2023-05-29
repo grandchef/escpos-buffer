@@ -10,7 +10,7 @@ export default class Elgin extends Epson {
   }
 
   async buzzer(): Promise<void> {
-    this.connection.write(Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'));
+    return this.connection.write(Buffer.from('\x1B(A\x05\x00ad\x02\x02\x01', 'ascii'));
   }
 
   async drawer(

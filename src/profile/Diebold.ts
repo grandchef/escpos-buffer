@@ -1,9 +1,21 @@
 import Elgin from './Elgin';
-import { Drawer } from '../actions';
+import { Cut, Drawer } from '../actions';
+import { Font } from '../capabilities';
 
 export default class Diebold extends Elgin {
   async buzzer(): Promise<void> {
     return this.connection.write(Buffer.from('\x07', 'ascii'));
+  }
+
+  async initialize(): Promise<void> {
+    await this.setCodepage(this.capabilities.codepage);
+    await this.setColumns(this.capabilities.columns);
+  }
+
+  protected async fontChanged(_: Font, __: Font) {}
+
+  async cutter(_: Cut): Promise<void> {
+    return this.connection.write(Buffer.from('\x1Bw', 'ascii'));
   }
 
   async drawer(

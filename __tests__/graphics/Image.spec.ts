@@ -1,9 +1,25 @@
 import * as path from 'path';
 import { ImageManager } from 'escpos-buffer-image';
 
-import { Image } from '../../src';
+import { Image, ImageData, Manager } from '../../src';
+
+class ManagerTest extends Manager {
+  loadImage(_filename: string): Promise<ImageData> {
+    return Promise.resolve(null as ImageData);
+  }
+  loadImageFromBuffer(_data: Buffer): Promise<ImageData> {
+    return Promise.resolve(null as ImageData);
+  }
+  buildQrcodeImage(_data: string, _size: number): Promise<ImageData> {
+    return Promise.resolve(null as ImageData);
+  }
+}
 
 describe('proccess images to printing format', () => {
+  it('instanciate a manager class', () => {
+    new ManagerTest();
+  });
+
   it('load image from buffer', async () => {
     const imageManager = new ImageManager();
     const imageData = await imageManager.loadImage(
