@@ -12,8 +12,10 @@ export default class Image {
   width: number;
   bytesPerRow: number;
 
-  constructor(imageData: ImageData, filter: Filter = new FloydSteinberg()) {
-    this.readImage(filter.process(imageData));
+  constructor(imageData?: ImageData, filter: Filter = new FloydSteinberg()) {
+    if (imageData) {
+      this.readImage(filter.process(imageData));
+    }
   }
 
   /**
