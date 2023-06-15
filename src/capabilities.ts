@@ -423,6 +423,7 @@ const capabilities = {
         cp864: '\x1Bt\x0E',
         cp862: '\x1Bt\x0F',
         iso88592: '\x1Bt\x10',
+        cp874: '\x1Bt\x1E',
       },
     },
   },
