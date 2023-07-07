@@ -205,6 +205,13 @@ const capabilities = {
       name: 'Print iD Touch',
     },
 
+    // TecToy
+    {
+      model: 'TecToy-Q4',
+      profile: 'tectoy',
+      name: 'TecToy Q4',
+    },
+
     // Perto
     {
       model: 'PertoPrinter',
@@ -387,6 +394,22 @@ const capabilities = {
         {
           name: 'Font B',
           columns: 57,
+        },
+      ],
+    },
+    tectoy: {
+      profile: 'epson',
+      brand: 'TecToy',
+      columns: 48,
+      feed: 4,
+      fonts: [
+        {
+          name: 'Font A',
+          columns: 48,
+        },
+        {
+          name: 'Font B',
+          columns: 56,
         },
       ],
     },
