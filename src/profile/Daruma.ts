@@ -63,8 +63,8 @@ export default class Daruma extends Epson {
     return this.fontChanged(this.font, this.font);
   }
 
-  protected async fontChanged(current: Font, previows: Font) {
-    await super.fontChanged(current, previows);
+  protected async fontChanged(current: Font, previous: Font) {
+    await super.fontChanged(current, previous);
     return this.applyCodePage();
   }
 

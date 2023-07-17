@@ -32,12 +32,12 @@ export default class ControliD extends Epson {
     return this.fontChanged(this.font, this.font);
   }
 
-  protected async fontChanged(current: Font, previows: Font) {
+  protected async fontChanged(current: Font, previous: Font) {
     if (current.name == 'Font C') {
       return this.connection.write(Buffer.from('\x1BM\x02', 'ascii'));
     } else {
       // Font A and B
-      return super.fontChanged(current, previows);
+      return super.fontChanged(current, previous);
     }
   }
 }

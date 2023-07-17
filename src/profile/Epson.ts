@@ -145,13 +145,13 @@ export default class Epson extends Profile {
     return this.connection.write(Buffer.from('\x1D(k\x03\x001Q0', 'ascii'));
   }
 
-  protected async fontChanged(current: Font, previows: Font) {
+  protected async fontChanged(current: Font, previous: Font) {
     if (current.name == 'Font A') {
       await this.connection.write(Buffer.from('\x1BM\x00', 'ascii'));
     } else {
       // Font B
       await this.connection.write(Buffer.from('\x1BM\x01', 'ascii'));
     }
-    return super.fontChanged(current, previows);
+    return super.fontChanged(current, previous);
   }
 }

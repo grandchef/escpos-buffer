@@ -71,11 +71,11 @@ export default class Bematech extends Epson {
     return this.feed(1);
   }
 
-  protected async fontChanged(current: Font, previows: Font): Promise<void> {
+  protected async fontChanged(current: Font, previous: Font): Promise<void> {
     if (current.name == 'Font C') {
       return this.connection.write(Buffer.from('\x1D\xf950', 'ascii'));
     }
     await this.connection.write(Buffer.from('\x1D\xf951', 'ascii'));
-    return super.fontChanged(current, previows);
+    return super.fontChanged(current, previous);
   }
 }
