@@ -209,7 +209,6 @@ const capabilities = {
     {
       model: 'Q4',
       profile: 'tectoy',
-      name: 'TecToy Q4',
     },
 
     // Perto
