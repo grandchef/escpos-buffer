@@ -10,6 +10,7 @@ import Elgin from './profile/Elgin';
 import Generic from './profile/Generic';
 import Perto from './profile/Perto';
 import Sweda from './profile/Sweda';
+import TecToy from './profile/TecToy';
 
 const cache = new Map<string, Capability>();
 
@@ -44,6 +45,8 @@ export default class Model {
         return new Perto(capability);
       case 'sweda':
         return new Sweda(capability);
+      case 'tectoy':
+        return new TecToy(capability);
       default:
         return new Epson(capability);
     }
