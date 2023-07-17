@@ -7,7 +7,7 @@ import { load } from '../helper';
 describe('tectoy model profile', () => {
   it('write text from model TecToy-Q4', async () => {
     const connection = new InMemory();
-    const model = 'TecToy-Q4';
+    const model = new Model('Q4');
     const printer = await Printer.CONNECT(model, connection);
     await printer.writeln('Large Text');
     expect(connection.buffer()).toStrictEqual(
@@ -17,7 +17,7 @@ describe('tectoy model profile', () => {
 
   it('write text with double width and height from model TecToy-Q4', async () => {
     const connection = new InMemory();
-    const model = new Model('TecToy-Q4');
+    const model = new Model('Q4');
     const printer = await Printer.CONNECT(model, connection);
     await printer.setColumns(64);
     await printer.writeln(
@@ -35,7 +35,7 @@ describe('tectoy model profile', () => {
 
   it('emit buzzer from model TecToy-Q4', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     await printer.buzzer();
     expect(connection.buffer()).toStrictEqual(
       load('tectoy-q4_buzzer', connection.buffer()),
@@ -44,7 +44,7 @@ describe('tectoy model profile', () => {
 
   it('emit cutter from model TecToy-Q4', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     await printer.cutter();
     expect(connection.buffer()).toStrictEqual(
       load('tectoy-q4_cutter', connection.buffer()),
@@ -53,7 +53,7 @@ describe('tectoy model profile', () => {
 
   it('draw qrcode from model TecToy-Q4', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     await printer.setAlignment(Align.Center);
     await printer.qrcode('https://github.com/grandchef/escpos-buffer');
     await printer.setAlignment(Align.Left);
@@ -64,7 +64,7 @@ describe('tectoy model profile', () => {
 
   it('sets char size from the style and clears it after', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     const cb = jest.fn();
     const width = 4;
     const height = 6;
@@ -80,7 +80,7 @@ describe('tectoy model profile', () => {
 
   it('defaults width to 1', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     const cb = jest.fn();
     const height = 6;
     await printer.withStyle({ height }, cb);
@@ -93,7 +93,7 @@ describe('tectoy model profile', () => {
 
   it('defaults height to 1', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     const cb = jest.fn();
     const width = 6;
     await printer.withStyle({ width }, cb);
@@ -106,7 +106,7 @@ describe('tectoy model profile', () => {
 
   it('caps max char size at 8', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     const cb = jest.fn();
     await printer.withStyle(
       {
@@ -125,7 +125,7 @@ describe('tectoy model profile', () => {
 
   it('caps min char size at 1', async () => {
     const connection = new InMemory();
-    const printer = await Printer.CONNECT('TecToy-Q4', connection);
+    const printer = await Printer.CONNECT('Q4', connection);
     const cb = jest.fn();
     await printer.withStyle(
       {

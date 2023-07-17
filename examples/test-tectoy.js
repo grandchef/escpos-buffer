@@ -2,7 +2,7 @@ const { Printer, Style, Align, Drawer, Model, InMemory, Image } = require('../')
 const path = require('path');
 
 (async () => {
-  const modelName = 'TecToy-Q4'
+  const modelName = 'Q4'
   const capability = Model.EXPAND(Model.FIND(modelName))
   const model = new Model(modelName)
   const { feed } = capability

@@ -207,7 +207,7 @@ const capabilities = {
 
     // TecToy
     {
-      model: 'TecToy-Q4',
+      model: 'Q4',
       profile: 'tectoy',
       name: 'TecToy Q4',
     },
