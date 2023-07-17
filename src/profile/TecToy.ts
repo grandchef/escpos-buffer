@@ -1,8 +1,8 @@
 import { Align, Style, Cut, Drawer } from '../actions';
 import { Font } from '../capabilities';
-import Epson from './Epson';
+import { Profile } from '.';
 
-export default class TecToy extends Epson {
+export default class TecToy extends Profile {
   async feed(lines: number): Promise<void> {
     return this.connection.write(Buffer.from('\x0A'.repeat(lines), 'ascii'));
   }
