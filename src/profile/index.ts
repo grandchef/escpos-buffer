@@ -127,15 +127,20 @@ export abstract class Profile {
   async draw(image: Image): Promise<void> {
     const low = String.fromCharCode(image.width & 0xff);
     const high = String.fromCharCode((image.width >> 8) & 0xff);
+    // Set correct line spacing
     await this.connection.write(Buffer.from('\x1B3\x10', 'ascii'));
+    // Print image slice by slice
     for (let y = 0; y < image.lines; y++) {
+      // Bit-image slice
       const data = image.lineData(y);
       await this.connection.write(
         Buffer.from(this.bitmapCmd + low + high, 'ascii'),
       );
       await this.connection.write(data);
-      await this.connection.write(Buffer.from('\x1BJ\x00', 'ascii'));
+      // Paper feed
+      await this.connection.write(Buffer.from('\x0A', 'ascii'));
     }
+    // Reset the line spacing to default
     return this.connection.write(Buffer.from('\x1B2', 'ascii'));
   }
 
